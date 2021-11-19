@@ -29,6 +29,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    //noinspection DataBindingWithoutKapt
+    dataBinding.enabled true
 }
 
 dependencies {

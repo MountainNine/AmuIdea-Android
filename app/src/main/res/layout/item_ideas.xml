@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:padding="8dp">
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="sample"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:id="@+id/text_item"/>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sample"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

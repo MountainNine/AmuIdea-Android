@@ -1,12 +1,15 @@
 package com.mtnine.amuidea
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.mtnine.amuidea.databinding.ActivitySplashBinding
+
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        val binding: ActivitySplashBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_login)
     }
 }
