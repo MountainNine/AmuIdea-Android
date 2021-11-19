@@ -6,11 +6,10 @@ import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 
 class SplashActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.BaseTheme)
-        super.onCreate(savedInstanceState, persistentState)
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-//        Thread.sleep(1000)
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
