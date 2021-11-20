@@ -1,5 +1,6 @@
 package com.mtnine.amuidea
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -10,5 +11,10 @@ class StartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding: ActivityStartBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_start)
+        binding.btnStart.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }
