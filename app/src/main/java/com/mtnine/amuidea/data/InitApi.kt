@@ -5,6 +5,6 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface InitApi {
-    @POST("amuidea")
-    fun getApiResponse(@Body apiRequest : ApiRequest) : Call<ApiResponse>
+    @POST("login")
+    fun getLoginResponse(@Body loginRequest : LoginRequest) : Call<LoginResponse>
 }

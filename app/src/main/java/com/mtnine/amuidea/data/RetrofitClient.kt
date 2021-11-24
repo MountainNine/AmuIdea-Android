@@ -6,9 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitClient {
-    private var instance : RetrofitClient? = null
-    private var initApi : InitApi? = null
-    private val baseUrl : String = "https://y2xjj9oina.execute-api.ap-northeast-2.amazonaws.com/"
+    private val baseUrl : String = "https://y2xjj9oina.execute-api.ap-northeast-2.amazonaws.com/amuidea/"
 
     init {
         val interceptor = HttpLoggingInterceptor()
@@ -25,15 +23,22 @@ class RetrofitClient {
 
         initApi = retrofit.create(InitApi::class.java)
     }
+    companion object {
+        private var instance : RetrofitClient? = null
+        private var initApi : InitApi? = null
 
-    fun getInstance() : RetrofitClient {
-        if (instance == null) {
-            instance = RetrofitClient()
+        fun getInstance() : RetrofitClient {
+            if (instance == null) {
+                instance = RetrofitClient()
+            }
+            return instance as RetrofitClient
         }
-        return instance as RetrofitClient
+
+        fun getRetrofitInterface() : InitApi? {
+            return initApi
+        }
     }
 
-    fun getRetrofitInterface() : InitApi? {
-        return initApi
-    }
+
+
 }
