@@ -1,6 +1,8 @@
 package com.mtnine.amuidea.ui
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -24,6 +26,11 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding: ActivityLoginBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_login)
+        if(!getPreferenceString("autoLoginId").equals("") &&
+                !getPreferenceString("autoLoginPw").equals("")) {
+            binding.checkAutologin.isChecked = true
+            checkAutoLogin(getPreferenceString("autoLoginId")!!)
+        }
         binding.btnAccount.setOnClickListener {
             val intent = Intent(this, AccountActivity::class.java)
             startActivity(intent)
@@ -34,16 +41,13 @@ class LoginActivity : AppCompatActivity() {
             } else if (binding.editPw.text.isEmpty()) {
                 Toast.makeText(this, "비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show()
             } else {
-                loginResponse(binding)
+                loginResponse(this, binding)
                 //TODO: 서버 연동, 자동 로그인 설정
-                val intent = Intent(this, StartActivity::class.java)
-                startActivity(intent)
-                finish()
             }
         }
     }
 
-    fun loginResponse(binding: ActivityLoginBinding) {
+    fun loginResponse(context: Context, binding: ActivityLoginBinding) {
         val id: String = binding.editId.text.toString()
         val pw: String = binding.editPw.text.toString()
 
@@ -57,16 +61,49 @@ class LoginActivity : AppCompatActivity() {
                 if(response.isSuccessful && response.body() != null) {
                     val result: LoginResponse = response.body()!!
                     val statusCode: String = result.statusCode!!
+                    val token: String = result.token!!
+                    if(statusCode.equals("200")) {
+                        setPreference("token",token)
+                        if(binding.checkAutologin.isChecked) {
+                            setPreference("autoLoginId", id)
+                            setPreference("autoLoginPw", pw)
+                        } else {
+                            setPreference("autoLoginId", "")
+                            setPreference("autoLoginPw", "")
+                        }
 
-
+                        val intent = Intent(context, StartActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show()
+                    }
 
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                TODO("Not yet implemented")
+                Toast.makeText(context, "예기치 못한 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
             }
 
         })
+    }
+
+    fun setPreference(key: String, value: String) {
+        val pref : SharedPreferences = getSharedPreferences("DATA_STORE", MODE_PRIVATE)
+        val editor : SharedPreferences.Editor = pref.edit()
+        editor.putString(key, value)
+        editor.apply()
+    }
+
+    fun getPreferenceString(key: String): String? {
+        val pref : SharedPreferences = getSharedPreferences("DATA_STORE", MODE_PRIVATE)
+        return pref.getString(key, "")
+    }
+
+    fun checkAutoLogin(id: String) {
+        val intent : Intent = Intent(this, StartActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

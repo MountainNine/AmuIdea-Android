@@ -9,4 +9,7 @@ class LoginResponse {
 
     @SerializedName("body")
     var body: String? = null
+
+    @SerializedName("token")
+    var token: String? = null
 }
