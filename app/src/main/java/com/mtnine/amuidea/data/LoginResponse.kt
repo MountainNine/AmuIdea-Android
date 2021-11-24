@@ -7,9 +7,6 @@ class LoginResponse {
     @SerializedName("statusCode")
     var statusCode: String? = null
 
-    @SerializedName("body")
-    var body: String? = null
-
     @SerializedName("token")
     var token: String? = null
 }
