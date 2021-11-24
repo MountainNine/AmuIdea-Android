@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    const val baseUrl = "https://y2xjj9oina.execute-api.ap-northeast-2.amazonaws.com/amuidea/"
+    const val baseUrl = "https://a5mppwt298.execute-api.ap-northeast-2.amazonaws.com/amuidea/"
 
     val retrofitClient: Retrofit.Builder by lazy {
         val logging = HttpLoggingInterceptor()

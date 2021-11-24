@@ -1,5 +1,6 @@
 package com.mtnine.amuidea.repository
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.mtnine.amuidea.data.RetrofitClient
 import com.mtnine.amuidea.model.LoginResponse
@@ -17,12 +18,12 @@ object Repository {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 val data = response.body()!!
                 val statusCode = data.statusCode
-                val body = data.body
+                val body = data.token
                 userLogin.value = LoginResponse(statusCode, body)
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                TODO("Not yet implemented")
+                Log.d("D", call.toString())
             }
         })
 

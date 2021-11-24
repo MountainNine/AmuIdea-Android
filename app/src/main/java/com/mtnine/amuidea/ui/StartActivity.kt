@@ -13,9 +13,11 @@ class StartActivity : AppCompatActivity() {
         val binding: ActivityStartBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_start)
         binding.btnStart.setOnClickListener {
+/*
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
+*/
         }
     }
 }

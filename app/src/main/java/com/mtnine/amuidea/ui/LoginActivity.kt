@@ -22,27 +22,29 @@ import retrofit2.Response
 
 
 class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layout.activity_login) {
-     override lateinit var viewModel: LoginViewModel
+     override val viewModel: LoginViewModel by lazy {
+         ViewModelProvider(this).get(LoginViewModel::class.java)
+     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         viewModel.onAccountClick.observe(this, {
             val intent = Intent(this, AccountActivity::class.java)
             startActivity(intent)
         })
-        val id: String = binding.editId.text.toString()
-        val pw: String = binding.editPw.text.toString()
 
         viewModel.onLoginClick.observe(this, {
+            val id: String = binding.editId.text.toString()
+            val pw: String = binding.editPw.text.toString()
+
             if (binding.editId.text.isEmpty()) {
                 showToast("아이디를 입력하세요.")
             } else if (binding.editPw.text.isEmpty()) {
                 showToast("비밀번호를 입력하세요.")
             } else {
                 viewModel.callLogin(id, pw)!!.observe(this, { loginResponse ->
-                    val token: String = loginResponse.body!!
+                    val token: String = loginResponse.token!!
                     val statusCode: String = loginResponse.statusCode!!
                     if (statusCode.equals("200")) {
                         showToast("로그인 성공")

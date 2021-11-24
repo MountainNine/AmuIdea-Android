@@ -6,6 +6,6 @@ import com.google.gson.annotations.SerializedName
 data class LoginResponse(
     @SerializedName("statusCode")
     var statusCode: String? = null,
-    @SerializedName("body")
-    var body: String? = null
+    @SerializedName("token")
+    var token: String? = null
 )
