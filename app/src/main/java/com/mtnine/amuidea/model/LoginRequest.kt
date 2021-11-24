@@ -1,4 +1,4 @@
-package com.mtnine.amuidea.data
+package com.mtnine.amuidea.model
 
 import com.google.gson.annotations.SerializedName
 
