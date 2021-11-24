@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import com.mtnine.amuidea.R
 import com.mtnine.amuidea.base.BaseActivity
-import com.mtnine.amuidea.data.InitApi
-import com.mtnine.amuidea.model.LoginRequest
+import com.mtnine.amuidea.data.ApiInterface
+import com.mtnine.amuidea.model.User
 import com.mtnine.amuidea.model.LoginResponse
 import com.mtnine.amuidea.data.RetrofitClient
 import com.mtnine.amuidea.databinding.ActivityLoginBinding
@@ -21,9 +21,8 @@ import retrofit2.Response
 
 class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layout.activity_login) {
     override val viewModel: LoginViewModel by viewModel()
+    private lateinit var apiInterface: ApiInterface
 
-    var retrofitClient: RetrofitClient? = null
-    var initApi: InitApi? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,7 +31,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layou
             binding.checkAutologin.isChecked = true
             checkAutoLogin(getPreferenceString("autoLoginId")!!)
         }
-        viewModel.onLoginClick.observe(this, {
+        viewModel.onAccountClick.observe(this, {
             val intent = Intent(this, AccountActivity::class.java)
             startActivity(intent)
         })
@@ -43,8 +42,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layou
             } else if (binding.editPw.text.isEmpty()) {
                 showToast("비밀번호를 입력하세요.")
             } else {
-                loginResponse(this, binding)
-                //TODO: 서버 연동, 자동 로그인 설정
+                //TODO: something
             }
         })
     }
@@ -53,11 +51,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layou
         val id: String = binding.editId.text.toString()
         val pw: String = binding.editPw.text.toString()
 
-        val loginRequest = LoginRequest(id, pw)
-
-        retrofitClient = RetrofitClient.getInstance()
-        initApi = RetrofitClient.getRetrofitInterface()
-        initApi?.getLoginResponse(loginRequest)?.enqueue(object: Callback<LoginResponse> {
+        apiInterface = RetrofitClient.apiInterface
+        apiInterface!!.getLoginResponse(id,pw).enqueue(object: Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 Log.d("retrofit", "Data fetch Success")
                 if(response.isSuccessful && response.body() != null) {
@@ -85,7 +80,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layou
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                showToast("예기치 못한 오류가 발생했습니다.")
             }
 
         })

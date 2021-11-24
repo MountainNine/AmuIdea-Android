@@ -5,41 +5,26 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitClient {
+object RetrofitClient {
 
-    init {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+    const val baseUrl = "https://y2xjj9oina.execute-api.ap-northeast-2.amazonaws.com/amuidea/"
+
+    val retrofitClient: Retrofit.Builder by lazy {
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
         val client = OkHttpClient.Builder()
-            .addInterceptor(interceptor)
+            .addInterceptor(logging)
             .build()
 
-        val retrofit = Retrofit.Builder()
+        Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
+    }
+
+    val apiInterface: ApiInterface by lazy {
+        retrofitClient
             .build()
-
-        initApi = retrofit.create(InitApi::class.java)
+            .create(ApiInterface::class.java)
     }
-
-    companion object {
-        private var instance: RetrofitClient? = null
-        private var initApi: InitApi? = null
-
-        fun getInstance(): RetrofitClient {
-            if (instance == null) {
-                instance = RetrofitClient()
-            }
-            return instance as RetrofitClient
-        }
-
-        fun getRetrofitInterface(): InitApi? {
-            return initApi
-        }
-
-        const val baseUrl = "https://y2xjj9oina.execute-api.ap-northeast-2.amazonaws.com/amuidea/"
-    }
-
-
 }
