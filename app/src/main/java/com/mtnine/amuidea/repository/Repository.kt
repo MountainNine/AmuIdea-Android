@@ -8,6 +8,24 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class Repository {
+object Repository {
+    val userLogin: MutableLiveData<LoginResponse> = MutableLiveData<LoginResponse>()
 
+    fun callLogin(id: String, pw: String) : MutableLiveData<LoginResponse> {
+        val call = RetrofitClient.apiInterface.getLoginResponse(User(id, pw))
+        call.enqueue(object: Callback<LoginResponse> {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                val data = response.body()!!
+                val statusCode = data.statusCode
+                val body = data.body
+                userLogin.value = LoginResponse(statusCode, body)
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+        })
+
+        return userLogin
+    }
 }
