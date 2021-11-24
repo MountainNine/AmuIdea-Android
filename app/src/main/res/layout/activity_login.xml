@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    <data>
+        <variable
+            name="vm"
+            type="com.mtnine.amuidea.vm.LoginViewModel" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -84,7 +88,8 @@
             app:layout_constraintBottom_toTopOf="@+id/btn_account"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/check_autologin" />
+            app:layout_constraintTop_toBottomOf="@+id/check_autologin"
+            android:onClick="@{() -> vm.login()}"/>
 
         <Button
             android:id="@+id/btn_account"
@@ -95,6 +100,7 @@
             android:text="회원가입"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_login"
+            android:onClick="@{()->vm.goAccount()}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

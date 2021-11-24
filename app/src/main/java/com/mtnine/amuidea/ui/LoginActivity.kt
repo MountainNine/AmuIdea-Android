@@ -9,42 +9,48 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.mtnine.amuidea.R
+import com.mtnine.amuidea.base.BaseActivity
+import com.mtnine.amuidea.base.BaseViewModel
 import com.mtnine.amuidea.data.InitApi
 import com.mtnine.amuidea.data.LoginRequest
 import com.mtnine.amuidea.data.LoginResponse
 import com.mtnine.amuidea.data.RetrofitClient
 import com.mtnine.amuidea.databinding.ActivityLoginBinding
+import com.mtnine.amuidea.vm.LoginViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layout.activity_login) {
+    override val viewModel: LoginViewModel by viewModel()
+
     var retrofitClient: RetrofitClient? = null
     var initApi: InitApi? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding: ActivityLoginBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_login)
+
         if(!getPreferenceString("autoLoginId").equals("") &&
                 !getPreferenceString("autoLoginPw").equals("")) {
             binding.checkAutologin.isChecked = true
             checkAutoLogin(getPreferenceString("autoLoginId")!!)
         }
-        binding.btnAccount.setOnClickListener {
+        viewModel.onLoginClick.observe(this, {
             val intent = Intent(this, AccountActivity::class.java)
             startActivity(intent)
-        }
-        binding.btnLogin.setOnClickListener {
+        })
+
+        viewModel.onLoginClick.observe(this, {
             if (binding.editId.text.isEmpty()) {
-                Toast.makeText(this, "아이디를 입력하세요.", Toast.LENGTH_SHORT).show()
+                showToast("아이디를 입력하세요.")
             } else if (binding.editPw.text.isEmpty()) {
-                Toast.makeText(this, "비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show()
+                showToast("비밀번호를 입력하세요.")
             } else {
                 loginResponse(this, binding)
                 //TODO: 서버 연동, 자동 로그인 설정
             }
-        }
+        })
     }
 
     fun loginResponse(context: Context, binding: ActivityLoginBinding) {
@@ -76,14 +82,14 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     } else {
-                        Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show()
+                        showToast("로그인 실패")
                     }
 
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                Toast.makeText(context, "예기치 못한 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                showToast("예기치 못한 오류가 발생했습니다.")
             }
 
         })
