@@ -1,11 +1,11 @@
-package com.mtnine.amuidea
+package com.mtnine.amuidea.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.mtnine.amuidea.R
 import com.mtnine.amuidea.databinding.ActivityLoginBinding
 
 

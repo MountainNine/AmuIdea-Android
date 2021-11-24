@@ -1,9 +1,10 @@
-package com.mtnine.amuidea
+package com.mtnine.amuidea.ui
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.mtnine.amuidea.R
 import com.mtnine.amuidea.databinding.ActivityStartBinding
 
 class StartActivity : AppCompatActivity() {
