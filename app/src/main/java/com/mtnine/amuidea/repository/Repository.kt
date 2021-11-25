@@ -18,7 +18,7 @@ object Repository {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 val data = response.body()!!
                 val statusCode = data.statusCode
-                val body = data.token
+                val body = data.msg
                 userLogin.value = LoginResponse(statusCode, body)
             }
 

@@ -1,24 +1,12 @@
 package com.mtnine.amuidea.ui
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.mtnine.amuidea.R
 import com.mtnine.amuidea.base.BaseActivity
-import com.mtnine.amuidea.data.ApiInterface
-import com.mtnine.amuidea.model.User
-import com.mtnine.amuidea.model.LoginResponse
-import com.mtnine.amuidea.data.RetrofitClient
 import com.mtnine.amuidea.databinding.ActivityLoginBinding
 import com.mtnine.amuidea.vm.LoginViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layout.activity_login) {
@@ -44,15 +32,15 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layou
                 showToast("비밀번호를 입력하세요.")
             } else {
                 viewModel.callLogin(id, pw)!!.observe(this, { loginResponse ->
-                    val token: String = loginResponse.token!!
+                    val msg: String = loginResponse.msg!!
                     val statusCode: String = loginResponse.statusCode!!
                     if (statusCode.equals("200")) {
-                        showToast("로그인 성공")
+                        showToast(msg)
                         val intent = Intent(this, StartActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {
-                        showToast("로그인 실패")
+                        showToast(msg)
                     }
                 })
             }
