@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.mtnine.amuidea.data.RetrofitClient
 import com.mtnine.amuidea.model.User
 import com.mtnine.amuidea.model.UserResponse
+import com.mtnine.amuidea.model.WordResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,5 +48,24 @@ object Repository {
         })
 
         return userLiveData
+    }
+
+    fun callGetWord(): MutableLiveData<WordResponse> {
+        val wordLiveData: MutableLiveData<WordResponse> = MutableLiveData<WordResponse>()
+        val call = RetrofitClient.apiInterface.getWord()
+        call.enqueue(object: Callback<WordResponse> {
+            override fun onResponse(call: Call<WordResponse>, response: Response<WordResponse>) {
+                val data = response.body()!!
+                val statusCode = data.statusCode
+                val body = data.msg
+                wordLiveData.value = WordResponse(statusCode, body)
+            }
+
+            override fun onFailure(call: Call<WordResponse>, t: Throwable) {
+                Log.d("D", call.toString())
+            }
+        })
+
+        return wordLiveData
     }
 }
