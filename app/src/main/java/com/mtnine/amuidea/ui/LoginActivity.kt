@@ -34,8 +34,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layou
                 viewModel.callLogin(id, pw)!!.observe(this, { loginResponse ->
                     val msg: String = loginResponse.msg!!
                     val statusCode: String = loginResponse.statusCode!!
+                    showToast(msg)
                     if (statusCode.equals("200")) {
-                        showToast(msg)
                         val intent = Intent(this, StartActivity::class.java)
                         startActivity(intent)
                         finish()
