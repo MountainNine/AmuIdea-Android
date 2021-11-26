@@ -16,15 +16,15 @@ class AccountActivity : BaseActivity<ActivityAccountBinding, AccountViewModel>(R
         super.onCreate(savedInstanceState)
 
         viewModel.onAccountClick.observe(this, {
-            var id: String = binding.editId.text.toString()
-            var pw: String = binding.editPw.text.toString()
-            var nick: String = binding.editNickname.text.toString()
+            val id: String = binding.editId.text.toString()
+            val pw: String = binding.editPw.text.toString()
+            val nick: String = binding.editNickname.text.toString()
 
-            if (id.isEmpty()) {
+            if (id.isBlank()) {
                 showToast("아이디를 입력하세요.")
-            } else if (pw.isEmpty()) {
+            } else if (pw.isBlank()) {
                 showToast("비밀번호를 입력하세요.")
-            } else if (nick.isEmpty()) {
+            } else if (nick.isBlank()) {
                 showToast("닉네임을 입력하세요.")
             } else {
                 viewModel.callAccount(id,pw,nick)!!.observe(this, {userResponse ->

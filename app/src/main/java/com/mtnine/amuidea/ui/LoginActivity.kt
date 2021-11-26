@@ -26,9 +26,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layou
             val id: String = binding.editId.text.toString()
             val pw: String = binding.editPw.text.toString()
 
-            if (binding.editId.text.isEmpty()) {
+            if (binding.editId.text.isBlank()) {
                 showToast("아이디를 입력하세요.")
-            } else if (binding.editPw.text.isEmpty()) {
+            } else if (binding.editPw.text.isBlank()) {
                 showToast("비밀번호를 입력하세요.")
             } else {
                 viewModel.callLogin(id, pw)!!.observe(this, { loginResponse ->
