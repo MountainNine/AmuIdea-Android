@@ -39,8 +39,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layou
                         val intent = Intent(this, StartActivity::class.java)
                         startActivity(intent)
                         finish()
-                    } else {
-                        showToast(msg)
                     }
                 })
             }

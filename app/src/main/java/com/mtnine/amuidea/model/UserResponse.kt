@@ -3,7 +3,7 @@ package com.mtnine.amuidea.model
 import com.google.gson.annotations.SerializedName
 
 
-data class LoginResponse(
+data class UserResponse(
     @SerializedName("statusCode")
     var statusCode: String? = null,
     @SerializedName("msg")

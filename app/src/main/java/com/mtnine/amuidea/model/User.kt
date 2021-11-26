@@ -8,5 +8,8 @@ data class User(
     var id: String? = null,
 
     @SerializedName("pw")
-    var pw: String? = null
+    var pw: String? = null,
+
+    @SerializedName("name")
+    var name: String? = null
 )
