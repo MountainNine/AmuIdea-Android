@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class WordResponse(
     @SerializedName("statusCode")
-    var statusCode: String? = null,
+    val statusCode: String? = null,
     @SerializedName("msg")
-    var msg: List<String>? = null
+    val msg: List<String>? = null
 )

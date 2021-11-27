@@ -17,9 +17,11 @@ class ListActivity : BaseActivity<ActivityListBinding, ListViewModel>(R.layout.a
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val recyclerIdea : RecyclerView = binding.recyclerIdea
+        val recyclerIdea: RecyclerView = binding.recyclerIdea
         recyclerIdea.layoutManager = LinearLayoutManager(this)
         recyclerIdea.setHasFixedSize(true)
-        recyclerIdea.adapter = ItemAdapter()
+        val itemAdapter = ItemAdapter()
+        recyclerIdea.adapter = itemAdapter
+        itemAdapter.itemData = viewModel.itemListData
     }
 }

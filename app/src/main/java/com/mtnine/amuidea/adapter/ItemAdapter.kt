@@ -11,7 +11,7 @@ import com.mtnine.amuidea.vm.Item
 
 class ItemAdapter() : Adapter<ItemAdapter.ItemViewHolder>() {
     var items = ArrayList<Item>()
-    val itemData = MutableLiveData<ArrayList<Item>>()
+    var itemData = MutableLiveData<ArrayList<Item>>()
 
     init {
         itemData.value = items

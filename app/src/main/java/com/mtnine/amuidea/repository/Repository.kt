@@ -71,13 +71,13 @@ object Repository {
         return wordLiveData
     }
 
-    fun callGetIdeas(id: String): MutableLiveData<PostResponse> {
-        val postLiveData = MutableLiveData<PostResponse>()
+    fun callGetIdeas(id: String): MutableLiveData<ArrayList<Item>> {
+        val postLiveData = MutableLiveData<ArrayList<Item>>()
         val call = RetrofitClient.apiInterface.getIdeas(id)
         call.enqueue(object : Callback<PostResponse> {
             override fun onResponse(call: Call<PostResponse>, response: Response<PostResponse>) {
                 val data = response.body()!!
-                postLiveData.value = PostResponse(data.statusCode, data.date, data.words, data.idea)
+                postLiveData.value = data.msg
             }
 
             override fun onFailure(call: Call<PostResponse>, t: Throwable) {
