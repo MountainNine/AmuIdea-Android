@@ -22,6 +22,8 @@ class ListActivity : BaseActivity<ActivityListBinding, ListViewModel>(R.layout.a
         recyclerIdea.setHasFixedSize(true)
         val itemAdapter = ItemAdapter()
         recyclerIdea.adapter = itemAdapter
-        itemAdapter.itemData = viewModel.itemListData
+        viewModel.itemListData.observe(this, {
+            itemAdapter.setData(it)
+        })
     }
 }

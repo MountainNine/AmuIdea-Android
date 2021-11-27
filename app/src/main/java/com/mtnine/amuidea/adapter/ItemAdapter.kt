@@ -2,7 +2,6 @@ package com.mtnine.amuidea.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -10,12 +9,7 @@ import com.mtnine.amuidea.databinding.ItemIdeasBinding
 import com.mtnine.amuidea.vm.Item
 
 class ItemAdapter() : Adapter<ItemAdapter.ItemViewHolder>() {
-    var items = ArrayList<Item>()
-    var itemData = MutableLiveData<ArrayList<Item>>()
-
-    init {
-        itemData.value = items
-    }
+    var itemData = mutableListOf<Item>()
 
     class ItemViewHolder(val binding: ItemIdeasBinding) : ViewHolder(binding.root) {
         fun bind(item: Item) {
@@ -24,7 +18,7 @@ class ItemAdapter() : Adapter<ItemAdapter.ItemViewHolder>() {
     }
 
     fun setData(data: ArrayList<Item>) {
-        itemData.value = data
+        itemData = data
         notifyDataSetChanged()
     }
 
@@ -35,8 +29,8 @@ class ItemAdapter() : Adapter<ItemAdapter.ItemViewHolder>() {
     )
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(itemData[position])
     }
 
-    override fun getItemCount() = items.size
+    override fun getItemCount() = itemData.size
 }
