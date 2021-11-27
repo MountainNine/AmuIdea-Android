@@ -29,9 +29,9 @@ object Repository {
         return pref.getInt(CURRENT_STATE, 0)
     }
 
-    fun getLoginId(context: Context): String? {
+    fun getLoginId(context: Context): String {
         val pref: SharedPreferences = context.getSharedPreferences(PREF, MODE_PRIVATE)
-        return pref.getString(LOGIN_ID, "")
+        return pref.getString(LOGIN_ID, "")!!
     }
 
     fun putLoginState(context: Context, isChecked: Boolean) {
@@ -69,18 +69,18 @@ object Repository {
         editor.apply()
     }
 
-    fun callLogin(id: String, pw: String): MutableLiveData<UserResponse> {
-        val userLiveData: MutableLiveData<UserResponse> = MutableLiveData<UserResponse>()
+    fun callLogin(id: String, pw: String): MutableLiveData<SimpleResponse> {
+        val userLiveData: MutableLiveData<SimpleResponse> = MutableLiveData<SimpleResponse>()
         val call = RetrofitClient.apiInterface.getLoginResponse(User(id, pw, null))
-        call.enqueue(object : Callback<UserResponse> {
-            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+        call.enqueue(object : Callback<SimpleResponse> {
+            override fun onResponse(call: Call<SimpleResponse>, response: Response<SimpleResponse>) {
                 val data = response.body()!!
                 val statusCode = data.statusCode
                 val body = data.msg
-                userLiveData.value = UserResponse(statusCode, body)
+                userLiveData.value = SimpleResponse(statusCode, body)
             }
 
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+            override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
                 Log.d("D", call.toString())
             }
         })
@@ -88,18 +88,18 @@ object Repository {
         return userLiveData
     }
 
-    fun callAccount(id: String, pw: String, nick: String): MutableLiveData<UserResponse> {
-        val userLiveData: MutableLiveData<UserResponse> = MutableLiveData<UserResponse>()
+    fun callAccount(id: String, pw: String, nick: String): MutableLiveData<SimpleResponse> {
+        val userLiveData: MutableLiveData<SimpleResponse> = MutableLiveData<SimpleResponse>()
         val call = RetrofitClient.apiInterface.createAccount(User(id, pw, nick))
-        call.enqueue(object : Callback<UserResponse> {
-            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+        call.enqueue(object : Callback<SimpleResponse> {
+            override fun onResponse(call: Call<SimpleResponse>, response: Response<SimpleResponse>) {
                 val data = response.body()!!
                 val statusCode = data.statusCode
                 val body = data.msg
-                userLiveData.value = UserResponse(statusCode, body)
+                userLiveData.value = SimpleResponse(statusCode, body)
             }
 
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+            override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
                 Log.d("D", call.toString())
             }
         })
@@ -141,5 +141,25 @@ object Repository {
         })
 
         return postLiveData
+    }
+
+    fun callAddIdea(id: String, post: Post): MutableLiveData<SimpleResponse> {
+        val liveData = MutableLiveData<SimpleResponse>()
+        val call = RetrofitClient.apiInterface.addIdea(id, post)
+        call.enqueue(object: Callback<SimpleResponse> {
+            override fun onResponse(
+                call: Call<SimpleResponse>,
+                response: Response<SimpleResponse>
+            ) {
+                val data = response.body()!!
+                liveData.value = SimpleResponse(data.statusCode,data.msg)
+            }
+
+            override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
+                Log.d("D", call.toString())
+            }
+        })
+
+        return liveData
     }
 }
