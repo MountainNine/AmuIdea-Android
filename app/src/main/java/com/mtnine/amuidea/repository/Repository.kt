@@ -7,7 +7,7 @@ import com.mtnine.amuidea.model.PostResponse
 import com.mtnine.amuidea.model.User
 import com.mtnine.amuidea.model.UserResponse
 import com.mtnine.amuidea.model.WordResponse
-import com.mtnine.amuidea.vm.Item
+import com.mtnine.amuidea.model.Post
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -71,8 +71,8 @@ object Repository {
         return wordLiveData
     }
 
-    fun callGetIdeas(id: String): MutableLiveData<ArrayList<Item>> {
-        val postLiveData = MutableLiveData<ArrayList<Item>>()
+    fun callGetIdeas(id: String): MutableLiveData<ArrayList<Post>> {
+        val postLiveData = MutableLiveData<ArrayList<Post>>()
         val call = RetrofitClient.apiInterface.getIdeas(id)
         call.enqueue(object : Callback<PostResponse> {
             override fun onResponse(call: Call<PostResponse>, response: Response<PostResponse>) {

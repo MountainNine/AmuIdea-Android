@@ -2,8 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
-            name="ideaItem"
-            type="com.mtnine.amuidea.vm.Item" />
+            name="ideaPost"
+            type="com.mtnine.amuidea.model.Post" />
     </data>
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -15,14 +15,14 @@
             android:id="@+id/text_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ideaItem.date}"
+            android:text="@{ideaPost.date}"
             android:textColor="@color/black"
             android:textSize="16sp" />
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_words"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ideaItem.words}"
+            android:text="@{ideaPost.words}"
             android:textColor="@color/black"
             android:textSize="16sp" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -30,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@{ideaItem.idea}"
+            android:text="@{ideaPost.idea}"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
