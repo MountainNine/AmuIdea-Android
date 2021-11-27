@@ -12,7 +12,6 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel>(@LayoutRes 
     AppCompatActivity() {
     lateinit var binding: B
     abstract val viewModel: VM
-    val TAG = "AmuIdea"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

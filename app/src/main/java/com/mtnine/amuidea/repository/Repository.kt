@@ -1,18 +1,39 @@
 package com.mtnine.amuidea.repository
 
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.mtnine.amuidea.data.RetrofitClient
-import com.mtnine.amuidea.model.PostResponse
-import com.mtnine.amuidea.model.User
-import com.mtnine.amuidea.model.UserResponse
-import com.mtnine.amuidea.model.WordResponse
-import com.mtnine.amuidea.model.Post
+import com.mtnine.amuidea.model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import util.StringUtil.PREF
 
 object Repository {
+    fun getLoginState(context: Context): Boolean {
+        val pref: SharedPreferences = context.getSharedPreferences(PREF, MODE_PRIVATE)
+        return pref.getBoolean("login_state", false)
+    }
+
+    fun getCurrentState(context: Context): Int {
+        val pref: SharedPreferences = context.getSharedPreferences(PREF, MODE_PRIVATE)
+        return pref.getInt("current_state", 0)
+    }
+
+    fun getLoginId(context: Context): String? {
+        val pref: SharedPreferences = context.getSharedPreferences(PREF, MODE_PRIVATE)
+        return pref.getString("login_id", "")
+    }
+
+    fun putLoginState(context: Context, isChecked: Boolean) {
+        val pref = context.getSharedPreferences(PREF, MODE_PRIVATE)
+        val editor = pref.edit()
+        editor.putBoolean("login_state", false)
+        editor.apply()
+    }
 
     fun callLogin(id: String, pw: String): MutableLiveData<UserResponse> {
         val userLiveData: MutableLiveData<UserResponse> = MutableLiveData<UserResponse>()
