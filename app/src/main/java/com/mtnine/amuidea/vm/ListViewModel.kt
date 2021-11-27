@@ -1,5 +1,6 @@
 package com.mtnine.amuidea.vm
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mtnine.amuidea.base.BaseViewModel
@@ -18,5 +19,9 @@ class ListViewModel : BaseViewModel() {
     fun callGetItems(id: String): LiveData<ArrayList<Post>> {
         itemListData = Repository.callGetIdeas(id)
         return itemListData
+    }
+
+    fun putCurrentState(context: Context) {
+        Repository.putCurrentState(context, 2)
     }
 }

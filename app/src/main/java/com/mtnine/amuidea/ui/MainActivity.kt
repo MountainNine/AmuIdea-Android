@@ -7,6 +7,7 @@ import com.mtnine.amuidea.R
 import com.mtnine.amuidea.base.BaseActivity
 import com.mtnine.amuidea.databinding.ActivityMainBinding
 import com.mtnine.amuidea.vm.MainViewModel
+import util.StringUtil.IS_LAST_ACTIVITY_SPLASH
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.activity_main) {
     override val viewModel: MainViewModel by lazy {
@@ -15,10 +16,25 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        viewModel.putCurrentState(applicationContext)
         val words = intent.getStringArrayListExtra("words")
-        binding.textWord1.text = words?.get(0)
-        binding.textWord2.text = words?.get(1)
-        binding.textWord3.text = words?.get(2)
+        val isLastActivitySplash = intent.getBooleanExtra(IS_LAST_ACTIVITY_SPLASH, false)
+        binding.textWord1.text = if (isLastActivitySplash) {
+            viewModel.getExistWord(applicationContext, 1)
+        } else {
+            words?.get(0)
+        }
+        binding.textWord2.text = if (isLastActivitySplash) {
+            viewModel.getExistWord(applicationContext, 2)
+        } else {
+            words?.get(0)
+        }
+        binding.textWord3.text = if (isLastActivitySplash) {
+            viewModel.getExistWord(applicationContext, 3)
+        } else {
+            words?.get(0)
+        }
 
         viewModel.onButtonClick.observe(this, {
             if (binding.editCombi.text!!.isBlank()) {

@@ -17,6 +17,7 @@ class ListActivity : BaseActivity<ActivityListBinding, ListViewModel>(R.layout.a
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.putCurrentState(applicationContext)
         val recyclerIdea: RecyclerView = binding.recyclerIdea
         recyclerIdea.layoutManager = LinearLayoutManager(this)
         recyclerIdea.setHasFixedSize(true)

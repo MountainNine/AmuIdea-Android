@@ -10,28 +10,62 @@ import com.mtnine.amuidea.model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import util.StringUtil.CURRENT_STATE
+import util.StringUtil.LOGIN_ID
+import util.StringUtil.LOGIN_STATE
 import util.StringUtil.PREF
+import util.StringUtil.WORD_ONE
+import util.StringUtil.WORD_THREE
+import util.StringUtil.WORD_TWO
 
 object Repository {
     fun getLoginState(context: Context): Boolean {
         val pref: SharedPreferences = context.getSharedPreferences(PREF, MODE_PRIVATE)
-        return pref.getBoolean("login_state", false)
+        return pref.getBoolean(LOGIN_STATE, false)
     }
 
     fun getCurrentState(context: Context): Int {
         val pref: SharedPreferences = context.getSharedPreferences(PREF, MODE_PRIVATE)
-        return pref.getInt("current_state", 0)
+        return pref.getInt(CURRENT_STATE, 0)
     }
 
     fun getLoginId(context: Context): String? {
         val pref: SharedPreferences = context.getSharedPreferences(PREF, MODE_PRIVATE)
-        return pref.getString("login_id", "")
+        return pref.getString(LOGIN_ID, "")
     }
 
     fun putLoginState(context: Context, isChecked: Boolean) {
         val pref = context.getSharedPreferences(PREF, MODE_PRIVATE)
         val editor = pref.edit()
-        editor.putBoolean("login_state", false)
+        editor.putBoolean(LOGIN_STATE, isChecked)
+        editor.apply()
+    }
+
+    fun putCurrentState(context: Context, currentState: Int) {
+        val pref = context.getSharedPreferences(PREF, MODE_PRIVATE)
+        val editor = pref.edit()
+        editor.putInt(CURRENT_STATE, currentState)
+        editor.apply()
+    }
+
+    fun getExistWord(context: Context, index: Int) : String? {
+        val pref: SharedPreferences = context.getSharedPreferences(PREF, MODE_PRIVATE)
+        return pref.getString("word"+index, "")
+    }
+
+    fun putLoginId(context: Context, loginId: String) {
+        val pref = context.getSharedPreferences(PREF, MODE_PRIVATE)
+        val editor = pref.edit()
+        editor.putString(LOGIN_ID, loginId)
+        editor.apply()
+    }
+
+    fun putWords(context: Context, words: ArrayList<String>) {
+        val pref = context.getSharedPreferences(PREF, MODE_PRIVATE)
+        val editor = pref.edit()
+        editor.putString(WORD_ONE, words[0])
+        editor.putString(WORD_TWO, words[1])
+        editor.putString(WORD_THREE, words[2])
         editor.apply()
     }
 
