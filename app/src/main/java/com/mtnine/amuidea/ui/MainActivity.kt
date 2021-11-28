@@ -8,7 +8,6 @@ import com.mtnine.amuidea.base.BaseActivity
 import com.mtnine.amuidea.databinding.ActivityMainBinding
 import com.mtnine.amuidea.model.Post
 import com.mtnine.amuidea.vm.MainViewModel
-import util.StringUtil.IS_LAST_ACTIVITY_SPLASH
 import java.text.SimpleDateFormat
 import java.util.*
 
