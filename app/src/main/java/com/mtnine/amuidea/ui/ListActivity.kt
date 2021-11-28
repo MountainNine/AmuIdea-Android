@@ -9,6 +9,8 @@ import com.mtnine.amuidea.adapter.ItemAdapter
 import com.mtnine.amuidea.base.BaseActivity
 import com.mtnine.amuidea.databinding.ActivityListBinding
 import com.mtnine.amuidea.vm.ListViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ListActivity : BaseActivity<ActivityListBinding, ListViewModel>(R.layout.activity_list) {
     override val viewModel: ListViewModel by lazy {
@@ -22,7 +24,8 @@ class ListActivity : BaseActivity<ActivityListBinding, ListViewModel>(R.layout.a
         recyclerIdea.setHasFixedSize(true)
         val itemAdapter = ItemAdapter()
         recyclerIdea.adapter = itemAdapter
-        viewModel.itemListData.observe(this, {
+        val date = SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN).format(System.currentTimeMillis())
+        viewModel.callGetIdeas(viewModel.getLoginId(applicationContext), date).observe(this, {
             itemAdapter.setData(it)
         })
     }

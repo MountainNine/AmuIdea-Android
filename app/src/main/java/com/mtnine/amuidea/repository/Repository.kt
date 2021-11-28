@@ -5,18 +5,15 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.JsonObject
 import com.mtnine.amuidea.data.RetrofitClient
 import com.mtnine.amuidea.model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import util.StringUtil.CURRENT_STATE
 import util.StringUtil.LOGIN_ID
 import util.StringUtil.LOGIN_STATE
 import util.StringUtil.PREF
-import util.StringUtil.WORD_ONE
-import util.StringUtil.WORD_THREE
-import util.StringUtil.WORD_TWO
 
 object Repository {
     fun getLoginState(context: Context): Boolean {
@@ -138,9 +135,9 @@ object Repository {
         return wordLiveData
     }
 
-    fun callGetIdeas(id: String): MutableLiveData<ArrayList<Post>> {
-        val postLiveData = MutableLiveData<ArrayList<Post>>()
-        val call = RetrofitClient.apiInterface.getIdeas(id)
+    fun callGetIdeas(id: String, date:String): MutableLiveData<ArrayList<JsonObject>> {
+        val postLiveData = MutableLiveData<ArrayList<JsonObject>>()
+        val call = RetrofitClient.apiInterface.getIdea(Post(id, date, null, null))
         call.enqueue(object : Callback<PostResponse> {
             override fun onResponse(call: Call<PostResponse>, response: Response<PostResponse>) {
                 val data = response.body()!!

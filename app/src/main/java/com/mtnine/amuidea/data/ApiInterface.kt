@@ -20,8 +20,8 @@ interface ApiInterface {
     @POST("getword")
     fun getWord(@Body post: Post) : Call<WordResponse>
 
-    @POST("getideas")
-    fun getIdeas(id: String) : Call<PostResponse>
+    @POST("getidea")
+    fun getIdea(@Body post: Post) : Call<PostResponse>
 
     @POST("addidea")
     fun addIdea(@Body post: Post) : Call<SimpleResponse>

@@ -4,19 +4,23 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.google.gson.JsonObject
 import com.mtnine.amuidea.databinding.ItemIdeasBinding
 import com.mtnine.amuidea.model.Post
 
 class ItemAdapter() : Adapter<ItemAdapter.ItemViewHolder>() {
-    var itemData = mutableListOf<Post>()
+    var itemData = mutableListOf<JsonObject>()
 
     class ItemViewHolder(val binding: ItemIdeasBinding) : ViewHolder(binding.root) {
-        fun bind(post: Post) {
-            binding.ideaPost = post
+        fun bind(post: JsonObject) {
+            val date =post["StartDate"].asString
+            val words = post["Words"].asString
+            val idea = post["Idea"].asString
+            binding.ideaPost = Post(null, date, words, idea)
         }
     }
 
-    fun setData(data: ArrayList<Post>) {
+    fun setData(data: ArrayList<JsonObject>) {
         itemData = data
         notifyDataSetChanged()
     }
