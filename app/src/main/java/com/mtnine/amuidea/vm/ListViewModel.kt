@@ -12,7 +12,6 @@ class ListViewModel : BaseViewModel() {
     var items = ArrayList<Post>()
 
     init {
-        items = arrayListOf(Post("2021/11/27", "사과,배,구름", "구름 낀 날에 배에서 사과 팔기"))
         itemListData.value = items
     }
 

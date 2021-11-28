@@ -107,9 +107,9 @@ object Repository {
         return userLiveData
     }
 
-    fun callGetWord(): MutableLiveData<WordResponse> {
+    fun callGetWord(id: String, date: String): MutableLiveData<WordResponse> {
         val wordLiveData: MutableLiveData<WordResponse> = MutableLiveData<WordResponse>()
-        val call = RetrofitClient.apiInterface.getWord()
+        val call = RetrofitClient.apiInterface.getWord(Post(id,date,null,null))
         call.enqueue(object : Callback<WordResponse> {
             override fun onResponse(call: Call<WordResponse>, response: Response<WordResponse>) {
                 val data = response.body()!!
@@ -143,9 +143,9 @@ object Repository {
         return postLiveData
     }
 
-    fun callAddIdea(id: String, post: Post): MutableLiveData<SimpleResponse> {
+    fun callAddIdea(post: Post): MutableLiveData<SimpleResponse> {
         val liveData = MutableLiveData<SimpleResponse>()
-        val call = RetrofitClient.apiInterface.addIdea(id, post)
+        val call = RetrofitClient.apiInterface.addIdea(post)
         call.enqueue(object: Callback<SimpleResponse> {
             override fun onResponse(
                 call: Call<SimpleResponse>,

@@ -38,8 +38,8 @@ class MainViewModel() : BaseViewModel() {
         return Repository.getLoginId(context)
     }
 
-    fun callAddIdea(id: String, post: Post) : LiveData<SimpleResponse>? {
-        liveData = Repository.callAddIdea(id, post)
+    fun callAddIdea(post: Post) : LiveData<SimpleResponse>? {
+        liveData = Repository.callAddIdea(post)
         return liveData
     }
 }

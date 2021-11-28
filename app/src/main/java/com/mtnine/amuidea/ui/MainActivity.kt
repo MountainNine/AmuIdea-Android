@@ -50,11 +50,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
                 showToast("아이디어를 입력해주세요.")
             } else {
                 val date =
-                    SimpleDateFormat("yyyy/MM/dd", Locale.KOREAN).format(System.currentTimeMillis())
+                    SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN).format(System.currentTimeMillis())
                 val strWords = words.joinToString()
                 val idea = binding.editCombi.text.toString()
-                val post = Post(date, strWords, idea)
-                viewModel.callAddIdea(viewModel.getLoginId(applicationContext), post)!!
+                val post = Post(viewModel.getLoginId(applicationContext), date, strWords, idea)
+                viewModel.callAddIdea(post)!!
                     .observe(this, { response ->
                         val statusCode: String = response.statusCode!!
                         if(statusCode.equals("200")) {

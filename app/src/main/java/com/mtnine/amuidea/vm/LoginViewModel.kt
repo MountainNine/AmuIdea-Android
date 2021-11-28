@@ -29,6 +29,10 @@ class LoginViewModel : BaseViewModel() {
         Repository.putLoginState(context, isChecked)
     }
 
+    fun putLoginId(context: Context, id: String) {
+        Repository.putLoginId(context, id)
+    }
+
 
     fun goAccount() {
         onAccountClick.value = Unit

@@ -37,6 +37,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layou
                     showToast(msg)
                     if (statusCode.equals("200")) {
                         viewModel.checkAutoLogin(applicationContext, binding.checkAutologin.isChecked)
+                        viewModel.putLoginId(applicationContext, id)
                         lateinit var intent: Intent
                         when(viewModel.getCurrentState(applicationContext)) {
                             0 -> intent = Intent(this, StartActivity::class.java)
