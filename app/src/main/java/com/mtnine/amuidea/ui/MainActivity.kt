@@ -23,27 +23,15 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         viewModel.putCurrentState(applicationContext)
         lateinit var words: List<String?>
         val isLastActivitySplash = intent.getBooleanExtra(IS_LAST_ACTIVITY_SPLASH, false)
-        if (isLastActivitySplash) {
-            words = viewModel.getAllWord(applicationContext)
-        } else {
-            words = intent.getStringArrayListExtra("words") as List<String?>
-        }
-
-        binding.textWord1.text = if (isLastActivitySplash) {
-            viewModel.getExistWord(applicationContext, 1)
-        } else {
-            words.get(0)
-        }
-        binding.textWord2.text = if (isLastActivitySplash) {
-            viewModel.getExistWord(applicationContext, 2)
-        } else {
-            words.get(1)
-        }
-        binding.textWord3.text = if (isLastActivitySplash) {
-            viewModel.getExistWord(applicationContext, 3)
-        } else {
-            words.get(2)
-        }
+        viewModel.callGetWord(
+            viewModel.getLoginId(applicationContext),
+            SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN).format(System.currentTimeMillis())
+        )!!.observe(this, { wordResponse ->
+            words = wordResponse.msg!!
+            binding.textWord1.text = words[0]
+            binding.textWord2.text = words[1]
+            binding.textWord3.text = words[2]
+        })
 
         viewModel.onButtonClick.observe(this, {
             if (binding.editCombi.text!!.isBlank()) {
@@ -57,7 +45,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
                 viewModel.callAddIdea(post)!!
                     .observe(this, { response ->
                         val statusCode: String = response.statusCode!!
-                        if(statusCode.equals("200")) {
+                        if (statusCode.equals("200")) {
                             val intent = Intent(this, ListActivity::class.java)
                             startActivity(intent)
                             finish()

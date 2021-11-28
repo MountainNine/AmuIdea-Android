@@ -107,10 +107,29 @@ object Repository {
         return userLiveData
     }
 
-    fun callGetWord(id: String, date: String): MutableLiveData<WordResponse> {
+    fun callAddWord(id: String, date: String): MutableLiveData<WordResponse> {
         val wordLiveData: MutableLiveData<WordResponse> = MutableLiveData<WordResponse>()
-        val call = RetrofitClient.apiInterface.getWord(Post(id,date,null,null))
+        val call = RetrofitClient.apiInterface.addWord(Post(id,date,null,null))
         call.enqueue(object : Callback<WordResponse> {
+            override fun onResponse(call: Call<WordResponse>, response: Response<WordResponse>) {
+                val data = response.body()!!
+                val statusCode = data.statusCode
+                val body = data.msg
+                wordLiveData.value = WordResponse(statusCode, body)
+            }
+
+            override fun onFailure(call: Call<WordResponse>, t: Throwable) {
+                Log.d("D", call.toString())
+            }
+        })
+
+        return wordLiveData
+    }
+
+    fun callGetWord(id: String, date: String): MutableLiveData<WordResponse> {
+        val wordLiveData = MutableLiveData<WordResponse>()
+        val call = RetrofitClient.apiInterface.getWord(Post(id,date,null,null))
+        call.enqueue(object: Callback<WordResponse> {
             override fun onResponse(call: Call<WordResponse>, response: Response<WordResponse>) {
                 val data = response.body()!!
                 val statusCode = data.statusCode

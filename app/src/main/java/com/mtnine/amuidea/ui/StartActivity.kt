@@ -25,11 +25,8 @@ class StartActivity : BaseActivity<ActivityStartBinding, StartViewModel>(R.layou
             val date =
                 SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN).format(System.currentTimeMillis())
 
-            viewModel.callGetWord(id, date)!!.observe(this, { wordResponse ->
-                val msg: List<String> = wordResponse.msg!!
+            viewModel.callAddWord(id, date)!!.observe(this, {
                 val intent = Intent(this, MainActivity::class.java)
-                intent.putStringArrayListExtra("words", msg as ArrayList<String>)
-                viewModel.putWords(applicationContext, msg)
                 intent.putExtra(IS_LAST_ACTIVITY_SPLASH, false)
                 startActivity(intent)
                 finish()

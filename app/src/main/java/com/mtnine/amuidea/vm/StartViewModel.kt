@@ -19,8 +19,8 @@ class StartViewModel : BaseViewModel() {
         return Repository.getLoginId(context)
     }
 
-    fun callGetWord(id: String, date: String) : LiveData<WordResponse>? {
-        liveData = Repository.callGetWord(id, date)
+    fun callAddWord(id: String, date: String) : LiveData<WordResponse>? {
+        liveData = Repository.callAddWord(id, date)
         return liveData
     }
 

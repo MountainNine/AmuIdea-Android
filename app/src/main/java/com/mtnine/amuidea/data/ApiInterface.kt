@@ -14,6 +14,9 @@ interface ApiInterface {
     @POST("account")
     fun createAccount(@Body user: User) : Call<SimpleResponse>
 
+    @POST("addword")
+    fun addWord(@Body post: Post) : Call<WordResponse>
+
     @POST("getword")
     fun getWord(@Body post: Post) : Call<WordResponse>
 
