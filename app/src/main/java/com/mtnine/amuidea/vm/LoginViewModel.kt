@@ -21,8 +21,8 @@ class LoginViewModel : BaseViewModel() {
         return liveData
     }
 
-    fun getCurrentState(context: Context): Int {
-        return Repository.getCurrentState(context)
+    fun getCurrentState(id: String, date: String): LiveData<SimpleResponse> {
+        return Repository.callCurrentState(id, date)
     }
 
     fun checkAutoLogin(context: Context, isChecked: Boolean) {

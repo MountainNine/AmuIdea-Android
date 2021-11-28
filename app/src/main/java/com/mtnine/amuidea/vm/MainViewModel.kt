@@ -19,23 +19,6 @@ class MainViewModel() : BaseViewModel() {
         onButtonClick.value = Unit
     }
 
-    fun putCurrentState(context:Context) {
-        Repository.putCurrentState(context, 1)
-    }
-
-    fun getExistWord(context:Context, index:Int) : String? {
-        return Repository.getExistWord(context, index)
-    }
-
-    fun getAllWord(context: Context): List<String?> {
-        val words = mutableListOf<String?>()
-        for (i in 0..2) {
-            words.add(getExistWord(context, i))
-        }
-
-        return words
-    }
-
     fun getLoginId(context: Context): String {
         return Repository.getLoginId(context)
     }

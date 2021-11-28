@@ -19,8 +19,4 @@ class ListViewModel : BaseViewModel() {
         itemListData = Repository.callGetIdeas(id)
         return itemListData
     }
-
-    fun putCurrentState(context: Context) {
-        Repository.putCurrentState(context, 2)
-    }
 }

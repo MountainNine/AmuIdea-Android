@@ -25,4 +25,7 @@ interface ApiInterface {
 
     @POST("addidea")
     fun addIdea(@Body post: Post) : Call<SimpleResponse>
+
+    @POST("getstate")
+    fun getState(@Body post: Post) : Call<SimpleResponse>
 }

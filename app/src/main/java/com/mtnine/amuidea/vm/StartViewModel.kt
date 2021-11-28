@@ -23,13 +23,4 @@ class StartViewModel : BaseViewModel() {
         liveData = Repository.callAddWord(id, date)
         return liveData
     }
-
-    fun putCurrentState(context: Context) {
-        Repository.putCurrentState(context, 0)
-    }
-
-    fun putWords(context:Context, words: ArrayList<String>) {
-        Repository.putWords(context, words)
-    }
-
 }

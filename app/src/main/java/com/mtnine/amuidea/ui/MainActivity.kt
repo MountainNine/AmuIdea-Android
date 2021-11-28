@@ -20,9 +20,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.putCurrentState(applicationContext)
         lateinit var words: List<String?>
-        val isLastActivitySplash = intent.getBooleanExtra(IS_LAST_ACTIVITY_SPLASH, false)
         viewModel.callGetWord(
             viewModel.getLoginId(applicationContext),
             SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN).format(System.currentTimeMillis())
@@ -51,9 +49,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
                             finish()
                         }
                     })
-                val intent = Intent(this, ListActivity::class.java)
-                intent.putExtra("sentence", binding.editCombi.text)
-                startActivity(intent)
             }
 
         })

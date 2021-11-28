@@ -18,7 +18,6 @@ class StartActivity : BaseActivity<ActivityStartBinding, StartViewModel>(R.layou
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.putCurrentState(applicationContext)
 
         viewModel.onStartClick.observe(this, {
             val id = viewModel.getLoginId(applicationContext)

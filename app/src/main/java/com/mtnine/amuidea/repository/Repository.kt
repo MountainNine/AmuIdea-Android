@@ -24,9 +24,23 @@ object Repository {
         return pref.getBoolean(LOGIN_STATE, false)
     }
 
-    fun getCurrentState(context: Context): Int {
-        val pref: SharedPreferences = context.getSharedPreferences(PREF, MODE_PRIVATE)
-        return pref.getInt(CURRENT_STATE, 0)
+    fun callCurrentState(id: String, date:String): MutableLiveData<SimpleResponse> {
+        val simpleLiveData = MutableLiveData<SimpleResponse>()
+        val call = RetrofitClient.apiInterface.getState(Post(id,date,null,null))
+        call.enqueue(object: Callback<SimpleResponse> {
+            override fun onResponse(call: Call<SimpleResponse>, response: Response<SimpleResponse>) {
+                val data = response.body()!!
+                val statusCode = data.statusCode
+                val body = data.msg
+                simpleLiveData.value = SimpleResponse(statusCode, body)
+            }
+
+            override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
+                Log.d("D", call.toString())
+            }
+        })
+
+        return simpleLiveData
     }
 
     fun getLoginId(context: Context): String {
@@ -41,31 +55,10 @@ object Repository {
         editor.apply()
     }
 
-    fun putCurrentState(context: Context, currentState: Int) {
-        val pref = context.getSharedPreferences(PREF, MODE_PRIVATE)
-        val editor = pref.edit()
-        editor.putInt(CURRENT_STATE, currentState)
-        editor.apply()
-    }
-
-    fun getExistWord(context: Context, index: Int) : String? {
-        val pref: SharedPreferences = context.getSharedPreferences(PREF, MODE_PRIVATE)
-        return pref.getString("word"+index, "")
-    }
-
     fun putLoginId(context: Context, loginId: String) {
         val pref = context.getSharedPreferences(PREF, MODE_PRIVATE)
         val editor = pref.edit()
         editor.putString(LOGIN_ID, loginId)
-        editor.apply()
-    }
-
-    fun putWords(context: Context, words: ArrayList<String>) {
-        val pref = context.getSharedPreferences(PREF, MODE_PRIVATE)
-        val editor = pref.edit()
-        editor.putString(WORD_ONE, words[0])
-        editor.putString(WORD_TWO, words[1])
-        editor.putString(WORD_THREE, words[2])
         editor.apply()
     }
 
