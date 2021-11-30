@@ -7,6 +7,7 @@ import com.mtnine.amuidea.R
 import com.mtnine.amuidea.base.BaseActivity
 import com.mtnine.amuidea.databinding.ActivityMainBinding
 import com.mtnine.amuidea.model.Post
+import com.mtnine.amuidea.util.StringUtil
 import com.mtnine.amuidea.vm.MainViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -42,7 +43,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
                 viewModel.callAddIdea(post)!!
                     .observe(this, { response ->
                         val statusCode: String = response.statusCode!!
-                        if (statusCode.equals("200")) {
+                        if (statusCode.equals(StringUtil.OK)) {
                             val intent = Intent(this, ListActivity::class.java)
                             startActivity(intent)
                             finish()
