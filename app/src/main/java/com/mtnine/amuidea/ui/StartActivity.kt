@@ -22,7 +22,7 @@ class StartActivity : BaseActivity<ActivityStartBinding, StartViewModel>(R.layou
             val id = viewModel.getLoginId(applicationContext)
             val date = Util.getDateFormat()
 
-            viewModel.callAddWord(id, date)!!.observe(this, {
+            viewModel.callAddWord(id, date)?.observe(this, {
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra(IS_LAST_ACTIVITY_SPLASH, false)
                 startActivity(intent)

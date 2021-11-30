@@ -36,9 +36,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layou
                     showToast(R.string.please_input_pw)
                 }
                 else -> {
-                    viewModel.callLogin(id, pw)!!.observe(this, { loginResponse ->
-                        val msg: String = loginResponse.msg!!
-                        val statusCode: String = loginResponse.statusCode!!
+                    viewModel.callLogin(id, pw)?.observe(this, { loginResponse ->
+                        val msg: String = loginResponse.msg.toString()
+                        val statusCode: String = loginResponse.statusCode.toString()
                         showToast(msg)
                         if (statusCode.equals(StringUtil.OK)) {
                             viewModel.checkAutoLogin(

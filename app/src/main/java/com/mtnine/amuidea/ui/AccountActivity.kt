@@ -36,10 +36,12 @@ class AccountActivity :
                     showToast(R.string.please_input_name)
                 }
                 else -> {
-                    viewModel.callAccount(id, pw, nick)!!.observe(this, { userResponse ->
-                        val msg: String = userResponse.msg!!
-                        val statusCode: String = userResponse.statusCode!!
-                        showToast(msg)
+                    viewModel.callAccount(id, pw, nick)?.observe(this, { userResponse ->
+                        val msg: String? = userResponse.msg
+                        val statusCode: String? = userResponse.statusCode
+                        if (msg != null) {
+                            showToast(msg)
+                        }
                         if (statusCode.equals(StringUtil.OK)) {
                             finish()
                         }
