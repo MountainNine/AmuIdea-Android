@@ -32,7 +32,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
 
         viewModel.onButtonClick.observe(this, {
             if (binding.editCombi.text!!.isBlank()) {
-                showToast("아이디어를 입력해주세요.")
+                showToast(R.string.please_input_idea)
             } else {
                 val date =
                     SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN).format(System.currentTimeMillis())

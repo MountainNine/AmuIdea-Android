@@ -21,11 +21,11 @@ class AccountActivity : BaseActivity<ActivityAccountBinding, AccountViewModel>(R
             val nick: String = binding.editNickname.text.toString()
 
             if (id.isBlank()) {
-                showToast("아이디를 입력하세요.")
+                showToast(R.string.please_input_id)
             } else if (pw.isBlank()) {
-                showToast("비밀번호를 입력하세요.")
+                showToast(R.string.please_input_pw)
             } else if (nick.isBlank()) {
-                showToast("닉네임을 입력하세요.")
+                showToast(R.string.please_input_name)
             } else {
                 viewModel.callAccount(id,pw,nick)!!.observe(this, {userResponse ->
                     val msg: String = userResponse.msg!!

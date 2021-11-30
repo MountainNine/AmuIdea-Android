@@ -23,7 +23,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="오늘의\n아이디어는?"
+                android:text="@string/what_is_idea"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="48sp"
@@ -36,7 +36,7 @@
                 android:layout_marginTop="20dp"
                 android:height="50dp"
                 android:backgroundTint="@color/black"
-                android:text="START"
+                android:text="@string/start"
                 android:onClick="@{()->vm.getWord()}"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
