@@ -8,9 +8,8 @@ import com.mtnine.amuidea.base.BaseActivity
 import com.mtnine.amuidea.databinding.ActivityMainBinding
 import com.mtnine.amuidea.model.Post
 import com.mtnine.amuidea.util.StringUtil
+import com.mtnine.amuidea.util.Util
 import com.mtnine.amuidea.vm.MainViewModel
-import java.text.SimpleDateFormat
-import java.util.*
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.activity_main) {
     override val viewModel: MainViewModel by lazy {
@@ -23,7 +22,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         lateinit var words: List<String?>
         viewModel.callGetWord(
             viewModel.getLoginId(applicationContext),
-            SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN).format(System.currentTimeMillis())
+            Util.getDateFormat()
         )!!.observe(this, { wordResponse ->
             words = wordResponse.msg!!
             binding.textWord1.text = words[0]
@@ -36,7 +35,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
                 showToast(R.string.please_input_idea)
             } else {
                 val date =
-                    SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN).format(System.currentTimeMillis())
+                    Util.getDateFormat()
                 val strWords = words.joinToString()
                 val idea = binding.editCombi.text.toString()
                 val post = Post(viewModel.getLoginId(applicationContext), date, strWords, idea)

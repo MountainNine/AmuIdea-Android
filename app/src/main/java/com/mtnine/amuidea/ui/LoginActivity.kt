@@ -7,9 +7,8 @@ import com.mtnine.amuidea.R
 import com.mtnine.amuidea.base.BaseActivity
 import com.mtnine.amuidea.databinding.ActivityLoginBinding
 import com.mtnine.amuidea.util.StringUtil
+import com.mtnine.amuidea.util.Util
 import com.mtnine.amuidea.vm.LoginViewModel
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layout.activity_login) {
@@ -49,10 +48,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layou
                             viewModel.putLoginId(applicationContext, id)
                             viewModel.getCurrentState(
                                 id,
-                                SimpleDateFormat(
-                                    "yyyy-MM-dd",
-                                    Locale.KOREAN
-                                ).format(System.currentTimeMillis())
+                                Util.getDateFormat()
                             ).observe(this, {
                                 lateinit var intent: Intent
                                 when (it.msg) {

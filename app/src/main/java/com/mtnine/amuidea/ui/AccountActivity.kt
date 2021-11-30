@@ -8,7 +8,11 @@ import com.mtnine.amuidea.databinding.ActivityAccountBinding
 import com.mtnine.amuidea.util.StringUtil
 import com.mtnine.amuidea.vm.AccountViewModel
 
-class AccountActivity : BaseActivity<ActivityAccountBinding, AccountViewModel>(R.layout.activity_account) {
+class AccountActivity :
+    BaseActivity<ActivityAccountBinding, AccountViewModel>(R.layout.activity_account) {
+    lateinit var id: String
+    lateinit var pw: String
+    lateinit var nick: String
     override val viewModel: AccountViewModel by lazy {
         ViewModelProvider(this).get(AccountViewModel::class.java)
     }
@@ -17,9 +21,9 @@ class AccountActivity : BaseActivity<ActivityAccountBinding, AccountViewModel>(R
         super.onCreate(savedInstanceState)
 
         viewModel.onAccountClick.observe(this, {
-            val id: String = binding.editId.text.toString()
-            val pw: String = binding.editPw.text.toString()
-            val nick: String = binding.editNickname.text.toString()
+            id = binding.editId.text.toString()
+            pw = binding.editPw.text.toString()
+            nick = binding.editNickname.text.toString()
 
             when {
                 id.isBlank() -> {
@@ -32,11 +36,11 @@ class AccountActivity : BaseActivity<ActivityAccountBinding, AccountViewModel>(R
                     showToast(R.string.please_input_name)
                 }
                 else -> {
-                    viewModel.callAccount(id,pw,nick)!!.observe(this, {userResponse ->
+                    viewModel.callAccount(id, pw, nick)!!.observe(this, { userResponse ->
                         val msg: String = userResponse.msg!!
                         val statusCode: String = userResponse.statusCode!!
                         showToast(msg)
-                        if(statusCode.equals(StringUtil.OK)) {
+                        if (statusCode.equals(StringUtil.OK)) {
                             finish()
                         }
                     })
