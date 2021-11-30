@@ -7,7 +7,7 @@ import com.mtnine.amuidea.R
 import com.mtnine.amuidea.base.BaseActivity
 import com.mtnine.amuidea.databinding.ActivityStartBinding
 import com.mtnine.amuidea.vm.StartViewModel
-import util.StringUtil.IS_LAST_ACTIVITY_SPLASH
+import com.mtnine.amuidea.util.StringUtil.IS_LAST_ACTIVITY_SPLASH
 import java.text.SimpleDateFormat
 import java.util.*
 

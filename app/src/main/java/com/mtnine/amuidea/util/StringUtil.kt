@@ -1,4 +1,4 @@
-package util
+package com.mtnine.amuidea.util
 
 object StringUtil {
     const val TAG = "AmuIdea"

@@ -11,9 +11,9 @@ import com.mtnine.amuidea.model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import util.StringUtil.LOGIN_ID
-import util.StringUtil.LOGIN_STATE
-import util.StringUtil.PREF
+import com.mtnine.amuidea.util.StringUtil.LOGIN_ID
+import com.mtnine.amuidea.util.StringUtil.LOGIN_STATE
+import com.mtnine.amuidea.util.StringUtil.PREF
 
 object Repository {
     fun getLoginState(context: Context): Boolean {
