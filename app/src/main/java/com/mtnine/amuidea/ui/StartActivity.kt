@@ -6,10 +6,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.mtnine.amuidea.R
 import com.mtnine.amuidea.base.BaseActivity
 import com.mtnine.amuidea.databinding.ActivityStartBinding
-import com.mtnine.amuidea.vm.StartViewModel
 import com.mtnine.amuidea.util.StringUtil.IS_LAST_ACTIVITY_SPLASH
-import java.text.SimpleDateFormat
-import java.util.*
+import com.mtnine.amuidea.util.Util
+import com.mtnine.amuidea.vm.StartViewModel
 
 class StartActivity : BaseActivity<ActivityStartBinding, StartViewModel>(R.layout.activity_start) {
     override val viewModel: StartViewModel by lazy {
@@ -21,10 +20,9 @@ class StartActivity : BaseActivity<ActivityStartBinding, StartViewModel>(R.layou
 
         viewModel.onStartClick.observe(this, {
             val id = viewModel.getLoginId(applicationContext)
-            val date =
-                SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN).format(System.currentTimeMillis())
+            val date = Util.getDateFormat()
 
-            viewModel.callAddWord(id, date)!!.observe(this, {
+            viewModel.callAddWord(id, date)?.observe(this, {
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra(IS_LAST_ACTIVITY_SPLASH, false)
                 startActivity(intent)

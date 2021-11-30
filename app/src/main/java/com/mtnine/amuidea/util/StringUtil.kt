@@ -10,5 +10,6 @@ object StringUtil {
     const val WORD_TWO = "word2"
     const val WORD_THREE = "word3"
     const val IS_LAST_ACTIVITY_SPLASH = "isLastActivitySplash"
+    const val OK = "200"
 
 }

@@ -8,12 +8,12 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.mtnine.amuidea.data.RetrofitClient
 import com.mtnine.amuidea.model.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import com.mtnine.amuidea.util.StringUtil.LOGIN_ID
 import com.mtnine.amuidea.util.StringUtil.LOGIN_STATE
 import com.mtnine.amuidea.util.StringUtil.PREF
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 object Repository {
     fun getLoginState(context: Context): Boolean {
@@ -21,15 +21,20 @@ object Repository {
         return pref.getBoolean(LOGIN_STATE, false)
     }
 
-    fun callCurrentState(id: String, date:String): MutableLiveData<SimpleResponse> {
+    fun callCurrentState(id: String, date: String): MutableLiveData<SimpleResponse> {
         val simpleLiveData = MutableLiveData<SimpleResponse>()
-        val call = RetrofitClient.apiInterface.getState(Post(id,date,null,null))
-        call.enqueue(object: Callback<SimpleResponse> {
-            override fun onResponse(call: Call<SimpleResponse>, response: Response<SimpleResponse>) {
-                val data = response.body()!!
-                val statusCode = data.statusCode
-                val body = data.msg
-                simpleLiveData.value = SimpleResponse(statusCode, body)
+        val call = RetrofitClient.apiInterface.getState(Post(id, date, null, null))
+        call.enqueue(object : Callback<SimpleResponse> {
+            override fun onResponse(
+                call: Call<SimpleResponse>,
+                response: Response<SimpleResponse>
+            ) {
+                val data = response.body()
+                if (data != null) {
+                    val statusCode = data.statusCode
+                    val body = data.msg
+                    simpleLiveData.value = SimpleResponse(statusCode, body)
+                }
             }
 
             override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
@@ -42,7 +47,7 @@ object Repository {
 
     fun getLoginId(context: Context): String {
         val pref: SharedPreferences = context.getSharedPreferences(PREF, MODE_PRIVATE)
-        return pref.getString(LOGIN_ID, "")!!
+        return pref.getString(LOGIN_ID, "").toString()
     }
 
     fun putLoginState(context: Context, isChecked: Boolean) {
@@ -63,11 +68,16 @@ object Repository {
         val userLiveData: MutableLiveData<SimpleResponse> = MutableLiveData<SimpleResponse>()
         val call = RetrofitClient.apiInterface.getLoginResponse(User(id, pw, null))
         call.enqueue(object : Callback<SimpleResponse> {
-            override fun onResponse(call: Call<SimpleResponse>, response: Response<SimpleResponse>) {
-                val data = response.body()!!
-                val statusCode = data.statusCode
-                val body = data.msg
-                userLiveData.value = SimpleResponse(statusCode, body)
+            override fun onResponse(
+                call: Call<SimpleResponse>,
+                response: Response<SimpleResponse>
+            ) {
+                val data = response.body()
+                if (data != null) {
+                    val statusCode = data.statusCode
+                    val body = data.msg
+                    userLiveData.value = SimpleResponse(statusCode, body)
+                }
             }
 
             override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
@@ -82,11 +92,16 @@ object Repository {
         val userLiveData: MutableLiveData<SimpleResponse> = MutableLiveData<SimpleResponse>()
         val call = RetrofitClient.apiInterface.createAccount(User(id, pw, nick))
         call.enqueue(object : Callback<SimpleResponse> {
-            override fun onResponse(call: Call<SimpleResponse>, response: Response<SimpleResponse>) {
-                val data = response.body()!!
-                val statusCode = data.statusCode
-                val body = data.msg
-                userLiveData.value = SimpleResponse(statusCode, body)
+            override fun onResponse(
+                call: Call<SimpleResponse>,
+                response: Response<SimpleResponse>
+            ) {
+                val data = response.body()
+                if (data != null) {
+                    val statusCode = data.statusCode
+                    val body = data.msg
+                    userLiveData.value = SimpleResponse(statusCode, body)
+                }
             }
 
             override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
@@ -99,13 +114,15 @@ object Repository {
 
     fun callAddWord(id: String, date: String): MutableLiveData<WordResponse> {
         val wordLiveData: MutableLiveData<WordResponse> = MutableLiveData<WordResponse>()
-        val call = RetrofitClient.apiInterface.addWord(Post(id,date,null,null))
+        val call = RetrofitClient.apiInterface.addWord(Post(id, date, null, null))
         call.enqueue(object : Callback<WordResponse> {
             override fun onResponse(call: Call<WordResponse>, response: Response<WordResponse>) {
-                val data = response.body()!!
-                val statusCode = data.statusCode
-                val body = data.msg
-                wordLiveData.value = WordResponse(statusCode, body)
+                val data = response.body()
+                if (data != null) {
+                    val statusCode = data.statusCode
+                    val body = data.msg
+                    wordLiveData.value = WordResponse(statusCode, body)
+                }
             }
 
             override fun onFailure(call: Call<WordResponse>, t: Throwable) {
@@ -118,13 +135,15 @@ object Repository {
 
     fun callGetWord(id: String, date: String): MutableLiveData<WordResponse> {
         val wordLiveData = MutableLiveData<WordResponse>()
-        val call = RetrofitClient.apiInterface.getWord(Post(id,date,null,null))
-        call.enqueue(object: Callback<WordResponse> {
+        val call = RetrofitClient.apiInterface.getWord(Post(id, date, null, null))
+        call.enqueue(object : Callback<WordResponse> {
             override fun onResponse(call: Call<WordResponse>, response: Response<WordResponse>) {
-                val data = response.body()!!
-                val statusCode = data.statusCode
-                val body = data.msg
-                wordLiveData.value = WordResponse(statusCode, body)
+                val data = response.body()
+                if (data != null) {
+                    val statusCode = data.statusCode
+                    val body = data.msg
+                    wordLiveData.value = WordResponse(statusCode, body)
+                }
             }
 
             override fun onFailure(call: Call<WordResponse>, t: Throwable) {
@@ -135,13 +154,15 @@ object Repository {
         return wordLiveData
     }
 
-    fun callGetIdeas(id: String, date:String): MutableLiveData<ArrayList<JsonObject>> {
+    fun callGetIdeas(id: String, date: String): MutableLiveData<ArrayList<JsonObject>> {
         val postLiveData = MutableLiveData<ArrayList<JsonObject>>()
         val call = RetrofitClient.apiInterface.getIdea(Post(id, date, null, null))
         call.enqueue(object : Callback<PostResponse> {
             override fun onResponse(call: Call<PostResponse>, response: Response<PostResponse>) {
-                val data = response.body()!!
-                postLiveData.value = data.msg
+                val data = response.body()
+                if (data != null) {
+                    postLiveData.value = data.msg
+                }
             }
 
             override fun onFailure(call: Call<PostResponse>, t: Throwable) {
@@ -155,13 +176,15 @@ object Repository {
     fun callAddIdea(post: Post): MutableLiveData<SimpleResponse> {
         val liveData = MutableLiveData<SimpleResponse>()
         val call = RetrofitClient.apiInterface.addIdea(post)
-        call.enqueue(object: Callback<SimpleResponse> {
+        call.enqueue(object : Callback<SimpleResponse> {
             override fun onResponse(
                 call: Call<SimpleResponse>,
                 response: Response<SimpleResponse>
             ) {
-                val data = response.body()!!
-                liveData.value = SimpleResponse(data.statusCode,data.msg)
+                val data = response.body()
+                if(data != null) {
+                    liveData.value = SimpleResponse(data.statusCode, data.msg)
+                }
             }
 
             override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {

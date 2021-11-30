@@ -6,10 +6,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.mtnine.amuidea.R
 import com.mtnine.amuidea.base.BaseActivity
 import com.mtnine.amuidea.databinding.ActivitySplashBinding
-import com.mtnine.amuidea.vm.SplashViewModel
 import com.mtnine.amuidea.util.StringUtil.IS_LAST_ACTIVITY_SPLASH
-import java.text.SimpleDateFormat
-import java.util.*
+import com.mtnine.amuidea.util.Util
+import com.mtnine.amuidea.vm.SplashViewModel
 
 class SplashActivity :
     BaseActivity<ActivitySplashBinding, SplashViewModel>(R.layout.activity_splash) {
@@ -28,10 +27,7 @@ class SplashActivity :
         } else {
             viewModel.getCurrentState(
                 applicationContext,
-                SimpleDateFormat(
-                    "yyyy-MM-dd",
-                    Locale.KOREAN
-                ).format(System.currentTimeMillis())
+                Util.getDateFormat()
             ).observe(this, {
                 when (it.msg) {
                     "0" -> intent = Intent(this, StartActivity::class.java)

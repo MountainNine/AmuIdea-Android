@@ -7,5 +7,5 @@ data class WordResponse(
     @SerializedName("statusCode")
     val statusCode: String? = null,
     @SerializedName("msg")
-    val msg: List<String>? = null
+    val msg: List<String?>
 )

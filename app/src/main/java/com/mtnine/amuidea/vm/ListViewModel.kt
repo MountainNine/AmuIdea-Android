@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.mtnine.amuidea.base.BaseViewModel
-import com.mtnine.amuidea.model.Post
 import com.mtnine.amuidea.repository.Repository
 
 class ListViewModel : BaseViewModel() {

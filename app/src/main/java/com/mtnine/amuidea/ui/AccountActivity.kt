@@ -5,9 +5,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.mtnine.amuidea.R
 import com.mtnine.amuidea.base.BaseActivity
 import com.mtnine.amuidea.databinding.ActivityAccountBinding
+import com.mtnine.amuidea.util.StringUtil
 import com.mtnine.amuidea.vm.AccountViewModel
 
-class AccountActivity : BaseActivity<ActivityAccountBinding, AccountViewModel>(R.layout.activity_account) {
+class AccountActivity :
+    BaseActivity<ActivityAccountBinding, AccountViewModel>(R.layout.activity_account) {
+    lateinit var id: String
+    lateinit var pw: String
+    lateinit var nick: String
     override val viewModel: AccountViewModel by lazy {
         ViewModelProvider(this).get(AccountViewModel::class.java)
     }
@@ -16,25 +21,32 @@ class AccountActivity : BaseActivity<ActivityAccountBinding, AccountViewModel>(R
         super.onCreate(savedInstanceState)
 
         viewModel.onAccountClick.observe(this, {
-            val id: String = binding.editId.text.toString()
-            val pw: String = binding.editPw.text.toString()
-            val nick: String = binding.editNickname.text.toString()
+            id = binding.editId.text.toString()
+            pw = binding.editPw.text.toString()
+            nick = binding.editNickname.text.toString()
 
-            if (id.isBlank()) {
-                showToast("아이디를 입력하세요.")
-            } else if (pw.isBlank()) {
-                showToast("비밀번호를 입력하세요.")
-            } else if (nick.isBlank()) {
-                showToast("닉네임을 입력하세요.")
-            } else {
-                viewModel.callAccount(id,pw,nick)!!.observe(this, {userResponse ->
-                    val msg: String = userResponse.msg!!
-                    val statusCode: String = userResponse.statusCode!!
-                    showToast(msg)
-                    if(statusCode.equals("200")) {
-                        finish()
-                    }
-                })
+            when {
+                id.isBlank() -> {
+                    showToast(R.string.please_input_id)
+                }
+                pw.isBlank() -> {
+                    showToast(R.string.please_input_pw)
+                }
+                nick.isBlank() -> {
+                    showToast(R.string.please_input_name)
+                }
+                else -> {
+                    viewModel.callAccount(id, pw, nick)?.observe(this, { userResponse ->
+                        val msg: String? = userResponse.msg
+                        val statusCode: String? = userResponse.statusCode
+                        if (msg != null) {
+                            showToast(msg)
+                        }
+                        if (statusCode.equals(StringUtil.OK)) {
+                            finish()
+                        }
+                    })
+                }
             }
         })
     }

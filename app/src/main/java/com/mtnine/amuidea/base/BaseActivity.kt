@@ -21,6 +21,9 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel>(@LayoutRes 
         binding.lifecycleOwner = this
     }
 
-    fun showToast(message: String) =
-        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+    fun showToast(resource: Int) =
+        Toast.makeText(applicationContext, getString(resource), Toast.LENGTH_SHORT).show()
+
+    fun showToast(msg: String) =
+        Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
 }

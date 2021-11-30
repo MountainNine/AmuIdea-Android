@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">amuidea</string>
+    <string name="please_input_id">아이디를 입력하세요.</string>
+    <string name="please_input_idea">아이디어를 입력하세요.</string>
+    <string name="please_input_pw">"비밀번호를 입력하세요."</string>
+    <string name="please_input_name">닉네임을 입력하세요.</string>
+    <string name="id">ID</string>
+    <string name="pw">PW</string>
+    <string name="name">닉네임</string>
+    <string name="account">회원가입</string>
+    <string name="login">로그인</string>
+    <string name="auto_login">자동 로그인</string>
+    <string name="please_combine">단어를 조합해보세요.</string>
+    <string name="OK">OK</string>
+    <string name="what_is_idea">오늘의\n아이디어는?</string>
+    <string name="start">START</string>
 </resources>
