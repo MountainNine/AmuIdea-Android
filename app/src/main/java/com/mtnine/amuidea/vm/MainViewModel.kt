@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mtnine.amuidea.base.BaseViewModel
 import com.mtnine.amuidea.model.Post
-import com.mtnine.amuidea.model.PostResponse
 import com.mtnine.amuidea.model.SimpleResponse
 import com.mtnine.amuidea.model.WordResponse
 import com.mtnine.amuidea.repository.Repository
@@ -23,12 +22,12 @@ class MainViewModel() : BaseViewModel() {
         return Repository.getLoginId(context)
     }
 
-    fun callAddIdea(post: Post) : LiveData<SimpleResponse>? {
+    fun callAddIdea(post: Post): LiveData<SimpleResponse>? {
         liveData = Repository.callAddIdea(post)
         return liveData
     }
 
-    fun callGetWord(id: String, date: String) : LiveData<WordResponse>? {
+    fun callGetWord(id: String, date: String): LiveData<WordResponse>? {
         wordLiveData = Repository.callGetWord(id, date)
         return wordLiveData
     }

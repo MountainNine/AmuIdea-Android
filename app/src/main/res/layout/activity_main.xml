@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="단어를 조합해보세요."
+                android:hint="@string/please_combine"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
@@ -65,7 +65,7 @@
                 android:layout_marginTop="20dp"
                 android:height="50dp"
                 android:backgroundTint="@color/black"
-                android:text="OK"
+                android:text="@string/OK"
                 android:onClick="@{() -> vm.goListActivity()}"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
