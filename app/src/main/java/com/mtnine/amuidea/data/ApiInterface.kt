@@ -1,31 +1,29 @@
 package com.mtnine.amuidea.data
 
 import com.mtnine.amuidea.model.*
-import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 interface ApiInterface {
     @POST("login")
-    fun getLoginResponse(@Body user: User): Call<SimpleResponse>
+    suspend fun getLoginResponse(@Body user: User): Response<SimpleResponse>
 
     @POST("account")
-    fun createAccount(@Body user: User) : Call<SimpleResponse>
+    suspend fun createAccount(@Body user: User): Response<SimpleResponse>
 
     @POST("addword")
-    fun addWord(@Body post: Post) : Call<WordResponse>
+    suspend fun addWord(@Body post: Post): Response<WordResponse>
 
     @POST("getword")
-    fun getWord(@Body post: Post) : Call<WordResponse>
+    suspend fun getWord(@Body post: Post): Response<WordResponse>
 
     @POST("getidea")
-    fun getIdea(@Body post: Post) : Call<PostResponse>
+    suspend fun getIdea(@Body post: Post): Response<PostResponse>
 
     @POST("addidea")
-    fun addIdea(@Body post: Post) : Call<SimpleResponse>
+    suspend fun addIdea(@Body post: Post): Response<SimpleResponse>
 
     @POST("getstate")
-    fun getState(@Body post: Post) : Call<SimpleResponse>
+    suspend fun getState(@Body post: Post): Response<SimpleResponse>
 }
