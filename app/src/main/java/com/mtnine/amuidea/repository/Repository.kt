@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
+import com.mtnine.amuidea.base.MutableSingleLiveData
 import com.mtnine.amuidea.data.RetrofitClient
 import com.mtnine.amuidea.model.*
 import com.mtnine.amuidea.util.StringUtil.LOGIN_ID
@@ -21,8 +21,8 @@ object Repository {
         return pref.getBoolean(LOGIN_STATE, false)
     }
 
-    fun callCurrentState(id: String, date: String): MutableLiveData<SimpleResponse> {
-        val simpleLiveData = MutableLiveData<SimpleResponse>()
+    fun callCurrentState(id: String, date: String): MutableSingleLiveData<SimpleResponse> {
+        val simpleLiveData = MutableSingleLiveData<SimpleResponse>()
         val call = RetrofitClient.apiInterface.getState(Post(id, date, null, null))
         call.enqueue(object : Callback<SimpleResponse> {
             override fun onResponse(
@@ -33,7 +33,7 @@ object Repository {
                 if (data != null) {
                     val statusCode = data.statusCode
                     val body = data.msg
-                    simpleLiveData.value = SimpleResponse(statusCode, body)
+                    simpleLiveData.setValue(SimpleResponse(statusCode, body))
                 }
             }
 
@@ -64,8 +64,8 @@ object Repository {
         editor.apply()
     }
 
-    fun callLogin(id: String, pw: String): MutableLiveData<SimpleResponse> {
-        val userLiveData: MutableLiveData<SimpleResponse> = MutableLiveData<SimpleResponse>()
+    fun callLogin(id: String, pw: String): MutableSingleLiveData<SimpleResponse> {
+        val userLiveData: MutableSingleLiveData<SimpleResponse> = MutableSingleLiveData<SimpleResponse>()
         val call = RetrofitClient.apiInterface.getLoginResponse(User(id, pw, null))
         call.enqueue(object : Callback<SimpleResponse> {
             override fun onResponse(
@@ -76,7 +76,7 @@ object Repository {
                 if (data != null) {
                     val statusCode = data.statusCode
                     val body = data.msg
-                    userLiveData.value = SimpleResponse(statusCode, body)
+                    userLiveData.setValue(SimpleResponse(statusCode, body))
                 }
             }
 
@@ -88,8 +88,8 @@ object Repository {
         return userLiveData
     }
 
-    fun callAccount(id: String, pw: String, nick: String): MutableLiveData<SimpleResponse> {
-        val userLiveData: MutableLiveData<SimpleResponse> = MutableLiveData<SimpleResponse>()
+    fun callAccount(id: String, pw: String, nick: String): MutableSingleLiveData<SimpleResponse> {
+        val userLiveData: MutableSingleLiveData<SimpleResponse> = MutableSingleLiveData<SimpleResponse>()
         val call = RetrofitClient.apiInterface.createAccount(User(id, pw, nick))
         call.enqueue(object : Callback<SimpleResponse> {
             override fun onResponse(
@@ -100,7 +100,7 @@ object Repository {
                 if (data != null) {
                     val statusCode = data.statusCode
                     val body = data.msg
-                    userLiveData.value = SimpleResponse(statusCode, body)
+                    userLiveData.setValue(SimpleResponse(statusCode, body))
                 }
             }
 
@@ -112,8 +112,8 @@ object Repository {
         return userLiveData
     }
 
-    fun callAddWord(id: String, date: String): MutableLiveData<WordResponse> {
-        val wordLiveData: MutableLiveData<WordResponse> = MutableLiveData<WordResponse>()
+    fun callAddWord(id: String, date: String): MutableSingleLiveData<WordResponse> {
+        val wordLiveData: MutableSingleLiveData<WordResponse> = MutableSingleLiveData<WordResponse>()
         val call = RetrofitClient.apiInterface.addWord(Post(id, date, null, null))
         call.enqueue(object : Callback<WordResponse> {
             override fun onResponse(call: Call<WordResponse>, response: Response<WordResponse>) {
@@ -121,7 +121,7 @@ object Repository {
                 if (data != null) {
                     val statusCode = data.statusCode
                     val body = data.msg
-                    wordLiveData.value = WordResponse(statusCode, body)
+                    wordLiveData.setValue(WordResponse(statusCode, body))
                 }
             }
 
@@ -133,8 +133,8 @@ object Repository {
         return wordLiveData
     }
 
-    fun callGetWord(id: String, date: String): MutableLiveData<WordResponse> {
-        val wordLiveData = MutableLiveData<WordResponse>()
+    fun callGetWord(id: String, date: String): MutableSingleLiveData<WordResponse> {
+        val wordLiveData = MutableSingleLiveData<WordResponse>()
         val call = RetrofitClient.apiInterface.getWord(Post(id, date, null, null))
         call.enqueue(object : Callback<WordResponse> {
             override fun onResponse(call: Call<WordResponse>, response: Response<WordResponse>) {
@@ -142,7 +142,7 @@ object Repository {
                 if (data != null) {
                     val statusCode = data.statusCode
                     val body = data.msg
-                    wordLiveData.value = WordResponse(statusCode, body)
+                    wordLiveData.setValue(WordResponse(statusCode, body))
                 }
             }
 
@@ -154,14 +154,14 @@ object Repository {
         return wordLiveData
     }
 
-    fun callGetIdeas(id: String, date: String): MutableLiveData<ArrayList<JsonObject>> {
-        val postLiveData = MutableLiveData<ArrayList<JsonObject>>()
+    fun callGetIdeas(id: String, date: String): MutableSingleLiveData<ArrayList<JsonObject>> {
+        val postLiveData = MutableSingleLiveData<ArrayList<JsonObject>>()
         val call = RetrofitClient.apiInterface.getIdea(Post(id, date, null, null))
         call.enqueue(object : Callback<PostResponse> {
             override fun onResponse(call: Call<PostResponse>, response: Response<PostResponse>) {
                 val data = response.body()
                 if (data != null) {
-                    postLiveData.value = data.msg
+                    postLiveData.setValue(data.msg)
                 }
             }
 
@@ -173,8 +173,8 @@ object Repository {
         return postLiveData
     }
 
-    fun callAddIdea(post: Post): MutableLiveData<SimpleResponse> {
-        val liveData = MutableLiveData<SimpleResponse>()
+    fun callAddIdea(post: Post): MutableSingleLiveData<SimpleResponse> {
+        val liveData = MutableSingleLiveData<SimpleResponse>()
         val call = RetrofitClient.apiInterface.addIdea(post)
         call.enqueue(object : Callback<SimpleResponse> {
             override fun onResponse(
@@ -183,7 +183,7 @@ object Repository {
             ) {
                 val data = response.body()
                 if(data != null) {
-                    liveData.value = SimpleResponse(data.statusCode, data.msg)
+                    liveData.setValue(SimpleResponse(data.statusCode, data.msg))
                 }
             }
 

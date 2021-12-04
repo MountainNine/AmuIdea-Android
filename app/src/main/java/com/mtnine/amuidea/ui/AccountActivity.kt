@@ -21,9 +21,9 @@ class AccountActivity :
         super.onCreate(savedInstanceState)
 
         viewModel.onAccountClick.observe(this, {
-            id = viewModel.inputId.value.toString()
-            pw = viewModel.inputPw.value.toString()
-            nick = viewModel.inputName.value.toString()
+            id = binding.editId.text.toString()
+            pw = binding.editPw.text.toString()
+            nick = binding.editNickname.text.toString()
 
             when {
                 id.isBlank() -> {

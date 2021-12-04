@@ -4,30 +4,32 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mtnine.amuidea.base.BaseViewModel
+import com.mtnine.amuidea.base.MutableSingleLiveData
+import com.mtnine.amuidea.base.SingleLiveData
 import com.mtnine.amuidea.model.Post
 import com.mtnine.amuidea.model.SimpleResponse
 import com.mtnine.amuidea.model.WordResponse
 import com.mtnine.amuidea.repository.Repository
 
 class MainViewModel() : BaseViewModel() {
-    val onButtonClick = MutableLiveData<Unit>()
-    var liveData: MutableLiveData<SimpleResponse>? = null
-    var wordLiveData: MutableLiveData<WordResponse>? = null
+    val onButtonClick = MutableSingleLiveData<Unit>()
+    var liveData: MutableSingleLiveData<SimpleResponse>? = null
+    var wordLiveData: MutableSingleLiveData<WordResponse>? = null
 
     fun goListActivity() {
-        onButtonClick.value = Unit
+        onButtonClick.setValue(Unit)
     }
 
     fun getLoginId(context: Context): String {
         return Repository.getLoginId(context)
     }
 
-    fun callAddIdea(post: Post): LiveData<SimpleResponse>? {
+    fun callAddIdea(post: Post): SingleLiveData<SimpleResponse>? {
         liveData = Repository.callAddIdea(post)
         return liveData
     }
 
-    fun callGetWord(id: String, date: String): LiveData<WordResponse>? {
+    fun callGetWord(id: String, date: String): SingleLiveData<WordResponse>? {
         wordLiveData = Repository.callGetWord(id, date)
         return wordLiveData
     }
