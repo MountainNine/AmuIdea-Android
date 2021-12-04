@@ -3,47 +3,27 @@ package com.mtnine.amuidea.repository
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
+import com.mtnine.amuidea.base.MutableSingleLiveData
 import com.mtnine.amuidea.data.RetrofitClient
-import com.mtnine.amuidea.model.*
+import com.mtnine.amuidea.model.Post
+import com.mtnine.amuidea.model.SimpleResponse
+import com.mtnine.amuidea.model.User
+import com.mtnine.amuidea.model.WordResponse
 import com.mtnine.amuidea.util.StringUtil.LOGIN_ID
 import com.mtnine.amuidea.util.StringUtil.LOGIN_STATE
 import com.mtnine.amuidea.util.StringUtil.PREF
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 object Repository {
+
     fun getLoginState(context: Context): Boolean {
         val pref: SharedPreferences = context.getSharedPreferences(PREF, MODE_PRIVATE)
         return pref.getBoolean(LOGIN_STATE, false)
     }
 
-    fun callCurrentState(id: String, date: String): MutableLiveData<SimpleResponse> {
-        val simpleLiveData = MutableLiveData<SimpleResponse>()
-        val call = RetrofitClient.apiInterface.getState(Post(id, date, null, null))
-        call.enqueue(object : Callback<SimpleResponse> {
-            override fun onResponse(
-                call: Call<SimpleResponse>,
-                response: Response<SimpleResponse>
-            ) {
-                val data = response.body()
-                if (data != null) {
-                    val statusCode = data.statusCode
-                    val body = data.msg
-                    simpleLiveData.value = SimpleResponse(statusCode, body)
-                }
-            }
-
-            override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
-                Log.d("D", call.toString())
-            }
-        })
-
-        return simpleLiveData
-    }
 
     fun getLoginId(context: Context): String {
         val pref: SharedPreferences = context.getSharedPreferences(PREF, MODE_PRIVATE)
@@ -64,133 +44,115 @@ object Repository {
         editor.apply()
     }
 
-    fun callLogin(id: String, pw: String): MutableLiveData<SimpleResponse> {
-        val userLiveData: MutableLiveData<SimpleResponse> = MutableLiveData<SimpleResponse>()
-        val call = RetrofitClient.apiInterface.getLoginResponse(User(id, pw, null))
-        call.enqueue(object : Callback<SimpleResponse> {
-            override fun onResponse(
-                call: Call<SimpleResponse>,
-                response: Response<SimpleResponse>
-            ) {
-                val data = response.body()
-                if (data != null) {
-                    val statusCode = data.statusCode
-                    val body = data.msg
-                    userLiveData.value = SimpleResponse(statusCode, body)
+    fun callCurrentState(id: String, date: String): MutableSingleLiveData<SimpleResponse> {
+        val simpleLiveData = MutableSingleLiveData<SimpleResponse>()
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            RetrofitClient.apiInterface.getState(Post(id, date, null, null)).let { response ->
+                if (response.isSuccessful) {
+                    val data = response.body()
+                    data?.let {
+                        simpleLiveData.postValue(SimpleResponse(it.statusCode, it.msg))
+                    }
                 }
             }
+        }
+        return simpleLiveData
+    }
 
-            override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
-                Log.d("D", call.toString())
+    fun callLogin(id: String, pw: String): MutableSingleLiveData<SimpleResponse> {
+        val userLiveData = MutableSingleLiveData<SimpleResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            RetrofitClient.apiInterface.getLoginResponse(User(id, pw, null)).let { response ->
+                if (response.isSuccessful) {
+                    val data = response.body()
+                    data?.let {
+                        userLiveData.postValue(SimpleResponse(it.statusCode, it.msg))
+                    }
+                }
             }
-        })
+        }
 
         return userLiveData
     }
 
-    fun callAccount(id: String, pw: String, nick: String): MutableLiveData<SimpleResponse> {
-        val userLiveData: MutableLiveData<SimpleResponse> = MutableLiveData<SimpleResponse>()
-        val call = RetrofitClient.apiInterface.createAccount(User(id, pw, nick))
-        call.enqueue(object : Callback<SimpleResponse> {
-            override fun onResponse(
-                call: Call<SimpleResponse>,
-                response: Response<SimpleResponse>
-            ) {
-                val data = response.body()
-                if (data != null) {
-                    val statusCode = data.statusCode
-                    val body = data.msg
-                    userLiveData.value = SimpleResponse(statusCode, body)
+    fun callAccount(id: String, pw: String, nick: String): MutableSingleLiveData<SimpleResponse> {
+        val userLiveData = MutableSingleLiveData<SimpleResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            RetrofitClient.apiInterface.createAccount(User(id, pw, nick)).let { response ->
+                if (response.isSuccessful) {
+                    val data = response.body()
+                    data?.let {
+                        userLiveData.postValue(SimpleResponse(it.statusCode, it.msg))
+                    }
                 }
             }
-
-            override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
-                Log.d("D", call.toString())
-            }
-        })
+        }
 
         return userLiveData
     }
 
-    fun callAddWord(id: String, date: String): MutableLiveData<WordResponse> {
-        val wordLiveData: MutableLiveData<WordResponse> = MutableLiveData<WordResponse>()
-        val call = RetrofitClient.apiInterface.addWord(Post(id, date, null, null))
-        call.enqueue(object : Callback<WordResponse> {
-            override fun onResponse(call: Call<WordResponse>, response: Response<WordResponse>) {
-                val data = response.body()
-                if (data != null) {
-                    val statusCode = data.statusCode
-                    val body = data.msg
-                    wordLiveData.value = WordResponse(statusCode, body)
+    fun callAddWord(id: String, date: String): MutableSingleLiveData<WordResponse> {
+        val wordLiveData = MutableSingleLiveData<WordResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            RetrofitClient.apiInterface.addWord(Post(id, date, null, null)).let { response ->
+                if (response.isSuccessful) {
+                    val data = response.body()
+                    data?.let {
+                        wordLiveData.postValue(WordResponse(it.statusCode, it.msg))
+                    }
                 }
             }
-
-            override fun onFailure(call: Call<WordResponse>, t: Throwable) {
-                Log.d("D", call.toString())
-            }
-        })
+        }
 
         return wordLiveData
     }
 
-    fun callGetWord(id: String, date: String): MutableLiveData<WordResponse> {
-        val wordLiveData = MutableLiveData<WordResponse>()
-        val call = RetrofitClient.apiInterface.getWord(Post(id, date, null, null))
-        call.enqueue(object : Callback<WordResponse> {
-            override fun onResponse(call: Call<WordResponse>, response: Response<WordResponse>) {
-                val data = response.body()
-                if (data != null) {
-                    val statusCode = data.statusCode
-                    val body = data.msg
-                    wordLiveData.value = WordResponse(statusCode, body)
+    fun callGetWord(id: String, date: String): MutableSingleLiveData<WordResponse> {
+        val wordLiveData = MutableSingleLiveData<WordResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            RetrofitClient.apiInterface.getWord(Post(id, date, null, null)).let { response ->
+                if (response.isSuccessful) {
+                    val data = response.body()
+                    data?.let {
+                        wordLiveData.postValue(WordResponse(it.statusCode, it.msg))
+                    }
                 }
             }
-
-            override fun onFailure(call: Call<WordResponse>, t: Throwable) {
-                Log.d("D", call.toString())
-            }
-        })
+        }
 
         return wordLiveData
     }
 
-    fun callGetIdeas(id: String, date: String): MutableLiveData<ArrayList<JsonObject>> {
-        val postLiveData = MutableLiveData<ArrayList<JsonObject>>()
-        val call = RetrofitClient.apiInterface.getIdea(Post(id, date, null, null))
-        call.enqueue(object : Callback<PostResponse> {
-            override fun onResponse(call: Call<PostResponse>, response: Response<PostResponse>) {
-                val data = response.body()
-                if (data != null) {
-                    postLiveData.value = data.msg
+    fun callGetIdeas(id: String, date: String): MutableSingleLiveData<ArrayList<JsonObject>> {
+        val postLiveData = MutableSingleLiveData<ArrayList<JsonObject>>()
+        CoroutineScope(Dispatchers.IO).launch {
+            RetrofitClient.apiInterface.getIdea(Post(id, date, null, null)).let { response ->
+                if (response.isSuccessful) {
+                    val data = response.body()
+                    data?.let {
+                        postLiveData.postValue(it.msg)
+                    }
                 }
             }
-
-            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
-                Log.d("D", call.toString())
-            }
-        })
+        }
 
         return postLiveData
     }
 
-    fun callAddIdea(post: Post): MutableLiveData<SimpleResponse> {
-        val liveData = MutableLiveData<SimpleResponse>()
-        val call = RetrofitClient.apiInterface.addIdea(post)
-        call.enqueue(object : Callback<SimpleResponse> {
-            override fun onResponse(
-                call: Call<SimpleResponse>,
-                response: Response<SimpleResponse>
-            ) {
-                val data = response.body()
-                if(data != null) {
-                    liveData.value = SimpleResponse(data.statusCode, data.msg)
+    fun callAddIdea(post: Post): MutableSingleLiveData<SimpleResponse> {
+        val liveData = MutableSingleLiveData<SimpleResponse>()
+        CoroutineScope(Dispatchers.IO).launch {
+            RetrofitClient.apiInterface.addIdea(post).let { response ->
+                if (response.isSuccessful) {
+                    val data = response.body()
+                    data?.let {
+                        liveData.postValue(SimpleResponse(it.statusCode, it.msg))
+                    }
                 }
             }
-
-            override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
-                Log.d("D", call.toString())
-            }
-        })
+        }
 
         return liveData
     }
