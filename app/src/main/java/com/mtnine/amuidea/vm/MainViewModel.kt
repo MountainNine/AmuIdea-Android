@@ -8,27 +8,23 @@ import com.mtnine.amuidea.model.Post
 import com.mtnine.amuidea.model.SimpleResponse
 import com.mtnine.amuidea.model.WordResponse
 import com.mtnine.amuidea.repository.Repository
+import javax.inject.Inject
 
-class MainViewModel() : BaseViewModel() {
-    val onButtonClick = MutableSingleLiveData<Unit>()
+class MainViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
     var liveData: MutableSingleLiveData<SimpleResponse>? = null
     var wordLiveData: MutableSingleLiveData<WordResponse>? = null
 
-    fun goListActivity() {
-        onButtonClick.setValue(Unit)
-    }
-
     fun getLoginId(context: Context): String {
-        return Repository.getLoginId(context)
+        return repository.getLoginId(context)
     }
 
     fun callAddIdea(post: Post): SingleLiveData<SimpleResponse>? {
-        liveData = Repository.callAddIdea(post)
+        liveData = repository.callAddIdea(post)
         return liveData
     }
 
     fun callGetWord(id: String, date: String): SingleLiveData<WordResponse>? {
-        wordLiveData = Repository.callGetWord(id, date)
+        wordLiveData = repository.callGetWord(id, date)
         return wordLiveData
     }
 }

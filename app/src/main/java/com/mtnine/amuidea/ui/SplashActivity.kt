@@ -12,8 +12,9 @@ import com.mtnine.amuidea.vm.SplashViewModel
 
 class SplashActivity :
     BaseActivity<ActivitySplashBinding, SplashViewModel>(R.layout.activity_splash) {
-    override val viewModel: SplashViewModel by lazy {
-        ViewModelProvider(this).get(SplashViewModel::class.java)
+
+    override fun getViewModel(): Class<SplashViewModel> {
+        return SplashViewModel::class.java
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

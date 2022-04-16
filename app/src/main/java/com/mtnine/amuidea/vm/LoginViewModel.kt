@@ -8,36 +8,27 @@ import com.mtnine.amuidea.base.MutableSingleLiveData
 import com.mtnine.amuidea.base.SingleLiveData
 import com.mtnine.amuidea.model.SimpleResponse
 import com.mtnine.amuidea.repository.Repository
+import javax.inject.Inject
 
-class LoginViewModel : BaseViewModel() {
+class LoginViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
     var onLoginClick = MutableSingleLiveData<Unit>()
     var onAccountClick = MutableSingleLiveData<Unit>()
     var liveData: MutableSingleLiveData<SimpleResponse>? = null
 
-    fun login() {
-        onLoginClick.setValue(Unit)
-    }
-
     fun callLogin(id: String, pw: String): SingleLiveData<SimpleResponse>? {
-        liveData = Repository.callLogin(id, pw)
+        liveData = repository.callLogin(id, pw)
         return liveData
     }
 
     fun getCurrentState(id: String, date: String): SingleLiveData<SimpleResponse> {
-        return Repository.callCurrentState(id, date)
+        return repository.callCurrentState(id, date)
     }
 
     fun checkAutoLogin(context: Context, isChecked: Boolean) {
-        Repository.putLoginState(context, isChecked)
+        repository.putLoginState(context, isChecked)
     }
 
     fun putLoginId(context: Context, id: String) {
-        Repository.putLoginId(context, id)
+        repository.putLoginId(context, id)
     }
-
-
-    fun goAccount() {
-        onAccountClick.setValue(Unit)
-    }
-
 }

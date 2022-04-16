@@ -13,8 +13,9 @@ class AccountActivity :
     lateinit var id: String
     lateinit var pw: String
     lateinit var nick: String
-    override val viewModel: AccountViewModel by lazy {
-        ViewModelProvider(this).get(AccountViewModel::class.java)
+
+    override fun getViewModel(): Class<AccountViewModel> {
+        return AccountViewModel::class.java
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

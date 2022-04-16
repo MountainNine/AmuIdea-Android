@@ -11,14 +11,15 @@ import com.mtnine.amuidea.util.Util
 import com.mtnine.amuidea.vm.StartViewModel
 
 class StartActivity : BaseActivity<ActivityStartBinding, StartViewModel>(R.layout.activity_start) {
-    override val viewModel: StartViewModel by lazy {
-        ViewModelProvider(this).get(StartViewModel::class.java)
+
+    override fun getViewModel(): Class<StartViewModel> {
+        return StartViewModel::class.java
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.onStartClick.observe(this, {
+        binding.btnStart.setOnClickListener {
             val id = viewModel.getLoginId(applicationContext)
             val date = Util.getDateFormat()
 
@@ -28,6 +29,6 @@ class StartActivity : BaseActivity<ActivityStartBinding, StartViewModel>(R.layou
                 startActivity(intent)
                 finish()
             })
-        })
+        }
     }
 }

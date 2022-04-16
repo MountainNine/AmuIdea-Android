@@ -2,7 +2,6 @@ package com.mtnine.amuidea.ui
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
 import com.mtnine.amuidea.R
 import com.mtnine.amuidea.base.BaseActivity
 import com.mtnine.amuidea.databinding.ActivityMainBinding
@@ -12,8 +11,9 @@ import com.mtnine.amuidea.util.Util
 import com.mtnine.amuidea.vm.MainViewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.activity_main) {
-    override val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this).get(MainViewModel::class.java)
+
+    override fun getViewModel(): Class<MainViewModel> {
+        return MainViewModel::class.java
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +31,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
 
         })
 
-        viewModel.onButtonClick.observe(this, {
+        binding.btnStart.setOnClickListener {
             if (binding.editCombi.text?.isBlank() == true) {
                 showToast(R.string.please_input_idea)
             } else {
@@ -50,7 +50,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
                         }
                     })
             }
-
-        })
+        }
     }
 }

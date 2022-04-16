@@ -7,8 +7,9 @@ import com.mtnine.amuidea.base.MutableSingleLiveData
 import com.mtnine.amuidea.base.SingleLiveData
 import com.mtnine.amuidea.model.SimpleResponse
 import com.mtnine.amuidea.repository.Repository
+import javax.inject.Inject
 
-class AccountViewModel : BaseViewModel() {
+class AccountViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
     var onAccountClick = MutableSingleLiveData<Unit>()
     var liveData: MutableSingleLiveData<SimpleResponse>? = null
 
@@ -17,7 +18,7 @@ class AccountViewModel : BaseViewModel() {
     }
 
     fun callAccount(id: String, pw: String, nick: String) : SingleLiveData<SimpleResponse>? {
-        liveData = Repository.callAccount(id, pw, nick)
+        liveData = repository.callAccount(id, pw, nick)
         return liveData
     }
 }

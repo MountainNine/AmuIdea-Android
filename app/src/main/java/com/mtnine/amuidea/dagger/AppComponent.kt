@@ -12,12 +12,15 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AndroidSupportInjectionModule::class,
-        RetrofitModule::class
+        ActivityBindingModule::class,
+        RetrofitModule::class,
+        ContextModule::class,
+        ViewModelModule::class
     ]
 )
 interface AppComponent : AndroidInjector<MyApp> {
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance application: Application) : AppComponent
+        fun create(@BindsInstance application: Application): AppComponent
     }
 }

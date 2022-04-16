@@ -8,8 +8,9 @@ import com.mtnine.amuidea.base.BaseViewModel
 import com.mtnine.amuidea.base.MutableSingleLiveData
 import com.mtnine.amuidea.base.SingleLiveData
 import com.mtnine.amuidea.repository.Repository
+import javax.inject.Inject
 
-class ListViewModel : BaseViewModel() {
+class ListViewModel @Inject constructor(private val repository: Repository) : BaseViewModel() {
     var itemListData = MutableSingleLiveData<ArrayList<JsonObject>>()
     var items = ArrayList<JsonObject>()
 
@@ -18,11 +19,11 @@ class ListViewModel : BaseViewModel() {
     }
 
     fun getLoginId(context: Context): String {
-        return Repository.getLoginId(context)
+        return repository.getLoginId(context)
     }
 
     fun callGetIdeas(id: String, date: String): SingleLiveData<ArrayList<JsonObject>> {
-        itemListData = Repository.callGetIdeas(id, date)
+        itemListData = repository.callGetIdeas(id, date)
         return itemListData
     }
 }

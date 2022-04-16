@@ -5,7 +5,7 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.google.gson.JsonObject
 import com.mtnine.amuidea.base.MutableSingleLiveData
-import com.mtnine.amuidea.data.RetrofitClient
+import com.mtnine.amuidea.data.ApiInterface
 import com.mtnine.amuidea.model.Post
 import com.mtnine.amuidea.model.SimpleResponse
 import com.mtnine.amuidea.model.User
@@ -16,8 +16,9 @@ import com.mtnine.amuidea.util.StringUtil.PREF
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-object Repository {
+class Repository @Inject constructor(private val apiInterface: ApiInterface) {
 
     fun getLoginState(context: Context): Boolean {
         val pref: SharedPreferences = context.getSharedPreferences(PREF, MODE_PRIVATE)
@@ -49,7 +50,7 @@ object Repository {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            RetrofitClient.apiInterface.getState(Post(id, date, null, null)).let { response ->
+            apiInterface.getState(Post(id, date, null, null)).let { response ->
                 if (response.isSuccessful) {
                     val data = response.body()
                     data?.let {
@@ -64,7 +65,7 @@ object Repository {
     fun callLogin(id: String, pw: String): MutableSingleLiveData<SimpleResponse> {
         val userLiveData = MutableSingleLiveData<SimpleResponse>()
         CoroutineScope(Dispatchers.IO).launch {
-            RetrofitClient.apiInterface.getLoginResponse(User(id, pw, null)).let { response ->
+            apiInterface.getLoginResponse(User(id, pw, null)).let { response ->
                 if (response.isSuccessful) {
                     val data = response.body()
                     data?.let {
@@ -80,7 +81,7 @@ object Repository {
     fun callAccount(id: String, pw: String, nick: String): MutableSingleLiveData<SimpleResponse> {
         val userLiveData = MutableSingleLiveData<SimpleResponse>()
         CoroutineScope(Dispatchers.IO).launch {
-            RetrofitClient.apiInterface.createAccount(User(id, pw, nick)).let { response ->
+            apiInterface.createAccount(User(id, pw, nick)).let { response ->
                 if (response.isSuccessful) {
                     val data = response.body()
                     data?.let {
@@ -96,7 +97,7 @@ object Repository {
     fun callAddWord(id: String, date: String): MutableSingleLiveData<WordResponse> {
         val wordLiveData = MutableSingleLiveData<WordResponse>()
         CoroutineScope(Dispatchers.IO).launch {
-            RetrofitClient.apiInterface.addWord(Post(id, date, null, null)).let { response ->
+            apiInterface.addWord(Post(id, date, null, null)).let { response ->
                 if (response.isSuccessful) {
                     val data = response.body()
                     data?.let {
@@ -112,7 +113,7 @@ object Repository {
     fun callGetWord(id: String, date: String): MutableSingleLiveData<WordResponse> {
         val wordLiveData = MutableSingleLiveData<WordResponse>()
         CoroutineScope(Dispatchers.IO).launch {
-            RetrofitClient.apiInterface.getWord(Post(id, date, null, null)).let { response ->
+            apiInterface.getWord(Post(id, date, null, null)).let { response ->
                 if (response.isSuccessful) {
                     val data = response.body()
                     data?.let {
@@ -128,7 +129,7 @@ object Repository {
     fun callGetIdeas(id: String, date: String): MutableSingleLiveData<ArrayList<JsonObject>> {
         val postLiveData = MutableSingleLiveData<ArrayList<JsonObject>>()
         CoroutineScope(Dispatchers.IO).launch {
-            RetrofitClient.apiInterface.getIdea(Post(id, date, null, null)).let { response ->
+            apiInterface.getIdea(Post(id, date, null, null)).let { response ->
                 if (response.isSuccessful) {
                     val data = response.body()
                     data?.let {
@@ -144,7 +145,7 @@ object Repository {
     fun callAddIdea(post: Post): MutableSingleLiveData<SimpleResponse> {
         val liveData = MutableSingleLiveData<SimpleResponse>()
         CoroutineScope(Dispatchers.IO).launch {
-            RetrofitClient.apiInterface.addIdea(post).let { response ->
+            apiInterface.addIdea(post).let { response ->
                 if (response.isSuccessful) {
                     val data = response.body()
                     data?.let {

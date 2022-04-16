@@ -9,22 +9,24 @@ import com.mtnine.amuidea.databinding.ActivityLoginBinding
 import com.mtnine.amuidea.util.StringUtil
 import com.mtnine.amuidea.util.Util
 import com.mtnine.amuidea.vm.LoginViewModel
+import javax.inject.Inject
 
 
 class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layout.activity_login) {
-    override val viewModel: LoginViewModel by lazy {
-        ViewModelProvider(this).get(LoginViewModel::class.java)
+
+    override fun getViewModel(): Class<LoginViewModel> {
+        return LoginViewModel::class.java
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.onAccountClick.observe(this, {
+        binding.btnAccount.setOnClickListener {
             val intent = Intent(this, AccountActivity::class.java)
             startActivity(intent)
-        })
+        }
 
-        viewModel.onLoginClick.observe(this, {
+        binding.btnLogin.setOnClickListener {
             val id: String = binding.editId.text.toString()
             val pw: String = binding.editPw.text.toString()
 
@@ -63,6 +65,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layou
                     })
                 }
             }
-        })
+        }
     }
 }

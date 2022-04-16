@@ -12,8 +12,9 @@ import com.mtnine.amuidea.util.Util
 import com.mtnine.amuidea.vm.ListViewModel
 
 class ListActivity : BaseActivity<ActivityListBinding, ListViewModel>(R.layout.activity_list) {
-    override val viewModel: ListViewModel by lazy {
-        ViewModelProvider(this).get(ListViewModel::class.java)
+
+    override fun getViewModel(): Class<ListViewModel> {
+        return ListViewModel::class.java
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

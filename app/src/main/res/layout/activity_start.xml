@@ -37,7 +37,6 @@
                 android:height="50dp"
                 android:backgroundTint="@color/black"
                 android:text="@string/start"
-                android:onClick="@{()->vm.getWord()}"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
