@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/amuidea.iml" filepath="$PROJECT_DIR$/.idea/modules/amuidea.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/amuidea.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/amuidea.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/android.amuidea.iml" filepath="$PROJECT_DIR$/.idea/modules/android.amuidea.iml" />
+    </modules>
+  </component>
+</project>
